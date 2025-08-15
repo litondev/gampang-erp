@@ -1,8 +1,9 @@
 package routes
 
 import (
+	"api/internal/handlers"
+
 	"github.com/gofiber/fiber/v2"
-	"myapp/internal/handlers"
 )
 
 func SetupRoutes(app *fiber.App) {

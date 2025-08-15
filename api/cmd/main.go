@@ -1,9 +1,9 @@
 package main
 
 import (
+	"api/config"
+	"api/internal/routes"
 	"log"
-	"myapp/config"
-	"myapp/internal/routes"
 
 	"github.com/gofiber/fiber/v2"
 )
