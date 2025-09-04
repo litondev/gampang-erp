@@ -33,7 +33,7 @@ func SetupRoutes(app *fiber.App, db *gorm.DB, debug string) {
 	api := app.Group("/api")
 
 	api.Get("/status", func(c *fiber.Ctx) error {
-		return c.Status(200).JSON(map[string]string{
+		return c.Status(200).JSON(fiber.Map{
 			"message": "active",
 		})
 	})

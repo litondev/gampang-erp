@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"api/internal/models"
 	repository "api/internal/repositories/auth"
 	"api/pkg" // untuk CheckPasswordHash
 	"errors"
@@ -12,14 +13,20 @@ import (
 
 func LoginService(db *gorm.DB, username, password string) (string, error) {
 	user, err := repository.GetUserByUsername(db, username)
+
 	if err != nil {
 		return "", err
 	}
+
 	if user == nil {
 		return "", errors.New("username atau password salah")
 	}
 
-	if !pkg.CheckPasswordHash(password, user.Password) {
+	if user.Password == nil {
+		return "", errors.New("password tidak ditemukan")
+	}
+
+	if !pkg.CheckPasswordHash(password, *user.Password) {
 		return "", errors.New("username atau password salah")
 	}
 
@@ -37,13 +44,16 @@ func LoginService(db *gorm.DB, username, password string) (string, error) {
 	return accessToken, nil
 }
 
-func MeService(db *gorm.DB, id uint) (*repository.User, error) {
+func MeService(db *gorm.DB, id uint) (*models.User, error) {
 	user, err := repository.GetUserByID(db, id)
+
 	if err != nil {
 		return nil, err
 	}
+
 	if user == nil {
 		return nil, errors.New("pengguna tidak ditemukan")
 	}
+
 	return user, nil
 }
