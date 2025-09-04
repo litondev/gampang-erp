@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2025 at 10:48 AM
+-- Generation Time: Sep 04, 2025 at 07:02 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -16,6 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `gampang_erp`
+--
 
 -- --------------------------------------------------------
 
@@ -1635,7 +1640,7 @@ CREATE TABLE `cost_of_products_sold_cards` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `item_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `cost_of_products_sold` decimal(20,2) NOT NULL DEFAULT 0.00000000000000,
+  `cost_of_products_sold` decimal(20,2) NOT NULL DEFAULT 0.00,
   `description` text DEFAULT NULL,
   `reference_code` varchar(50) DEFAULT NULL,
   `date` timestamp NULL DEFAULT NULL,
@@ -1648,11 +1653,11 @@ CREATE TABLE `cost_of_products_sold_cards` (
 --
 
 INSERT INTO `cost_of_products_sold_cards` (`id`, `user_id`, `item_id`, `cost_of_products_sold`, `description`, `reference_code`, `date`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, 1000.00000000000000, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(2, NULL, 2, 3000.00000000000000, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(3, NULL, 3, 2000.00000000000000, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(4, NULL, 4, 1000.00000000000000, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:14', '2025-08-16 01:48:14'),
-(5, NULL, 5, 0.00000000000000, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:14', '2025-08-16 01:48:14');
+(1, NULL, 1, 1000.00, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
+(2, NULL, 2, 3000.00, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
+(3, NULL, 3, 2000.00, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
+(4, NULL, 4, 1000.00, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:14', '2025-08-16 01:48:14'),
+(5, NULL, 5, 0.00, 'Pembuatan Harga Nilai Barang', NULL, NULL, '2025-08-16 01:48:14', '2025-08-16 01:48:14');
 
 -- --------------------------------------------------------
 
@@ -2326,99 +2331,6 @@ INSERT INTO `divisions` (`id`, `department_id`, `name`, `description`, `created_
 (4, 4, 'Umum', NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
 (5, 5, 'Umum', NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
 (6, 6, 'Umum', NULL, '2025-08-16 01:48:13', '2025-08-16 01:48:13');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `expeditions`
---
-
-CREATE TABLE `expeditions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `code` varchar(50) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `origin` varchar(200) DEFAULT NULL,
-  `destination` varchar(200) DEFAULT NULL,
-  `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `expeditions`
---
-
-INSERT INTO `expeditions` (`id`, `code`, `name`, `description`, `origin`, `destination`, `weight`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'EN0001', 'JNE(Jawa Tengah - Riau)', 'Pengiriman dari jawa tengah ke riau', 'Jawa Tengah,Solo', 'Riau,Papar', 500.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13', NULL),
-(2, 'EN0002', 'JNE(Jawa Tengah - Jawa Barat)', 'Pengiriman dari jawa tengah ke jawa barat', 'Jawa Tengah,Solo', 'Jawa Barat,Bandung', 100.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13', NULL),
-(3, 'EN0003', 'JNE(Jawa Tengah - Jawa Timur)', 'Pengiriman dari jawa tengah ke jawa timur', 'Jawa Tengah,Solo', 'Jawa Timur,Surabaya', 150.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `expedition_destination_maps`
---
-
-CREATE TABLE `expedition_destination_maps` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `expedition_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `zoom` int(11) NOT NULL DEFAULT 0,
-  `lat` decimal(9,6) NOT NULL DEFAULT 0.000000,
-  `lng` decimal(9,6) NOT NULL DEFAULT 0.000000,
-  `description` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `expedition_origin_maps`
---
-
-CREATE TABLE `expedition_origin_maps` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `expedition_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `zoom` int(11) NOT NULL DEFAULT 0,
-  `lat` decimal(9,6) NOT NULL DEFAULT 0.000000,
-  `lng` decimal(9,6) NOT NULL DEFAULT 0.000000,
-  `description` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `expedition_prices`
---
-
-CREATE TABLE `expedition_prices` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `expedition_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `price` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `expedition_prices`
---
-
-INSERT INTO `expedition_prices` (`id`, `expedition_id`, `name`, `description`, `price`, `created_at`, `updated_at`) VALUES
-(1, 1, 'JNE(Express)', 'Lewat jalur laut', 100000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(2, 1, 'JNE(Ekonomi)', 'Lewat jalur darat', 50000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(3, 1, 'JNE(Reguler)', 'Lewat jalur udara', 20000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(4, 2, 'JNE(Express)', 'Lewat jalur laut', 10000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(5, 2, 'JNE(Ekonomi)', 'Lewat jalur darat', 5000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(6, 2, 'JNE(Reguler)', 'Lewat jalur udara', 1000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(7, 3, 'JNE(Express)', 'Lewat jalur laut', 20000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(8, 3, 'JNE(Ekonomi)', 'Lewat jalur darat', 10000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13'),
-(9, 3, 'JNE(Reguler)', 'Lewat jalur udara', 20000.00, '2025-08-16 01:48:13', '2025-08-16 01:48:13');
 
 -- --------------------------------------------------------
 
@@ -3438,251 +3350,6 @@ CREATE TABLE `journal_details` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
---
-
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2007_07_27_122322_create_countries_table', 1),
-(2, '2007_07_27_122323_create_provinces_table', 1),
-(3, '2007_07_27_122324_create_province_maps_table', 1),
-(4, '2007_07_27_122327_create_cities_table', 1),
-(5, '2007_07_27_122327_create_city_maps_table', 1),
-(6, '2007_07_27_122328_create_warehouses_table', 1),
-(7, '2007_07_27_122329_create_warehouse_addresses_table', 1),
-(8, '2007_07_27_122330_create_warehouse_address_maps_table', 1),
-(9, '2007_07_27_122330_create_warehouse_contacts_table', 1),
-(10, '2013_07_05_093412_create_areas_table', 1),
-(11, '2013_07_05_093413_create_area_maps_table', 1),
-(12, '2013_07_05_093414_create_departments_table', 1),
-(13, '2013_07_05_093414_create_divisions_table', 1),
-(14, '2013_07_05_093414_create_positions_table', 1),
-(15, '2013_07_05_093415_create_expeditions_table', 1),
-(16, '2013_07_05_093416_create_expedition_prices_table', 1),
-(17, '2013_07_05_093417_create_expedition_destination_maps_table', 1),
-(18, '2013_07_05_093418_create_expedition_origin_maps_table', 1),
-(19, '2013_07_05_093427_create_group_roles_table', 1),
-(20, '2013_07_05_093428_create_roles_table', 1),
-(21, '2013_07_05_093433_create_grants_table', 1),
-(22, '2013_07_05_093434_create_grant_operators_table', 1),
-(23, '2014_10_12_000000_create_users_table', 1),
-(24, '2014_10_12_000001_create_user_addresses_table', 1),
-(25, '2014_10_12_000002_create_user_address_maps_table', 1),
-(26, '2014_10_12_000002_create_user_banks_table', 1),
-(27, '2014_10_12_000003_create_user_taxes_table', 1),
-(28, '2014_10_12_000004_create_user_contacts_table', 1),
-(29, '2014_10_12_000006_create_user_files_table', 1),
-(30, '2014_10_12_000007_create_user_shifts_table', 1),
-(31, '2014_10_12_000008_create_user_shift_hours_table', 1),
-(32, '2014_10_12_000009_create_user_personal_datas_table', 1),
-(33, '2014_10_12_000010_create_user_commissions_table', 1),
-(34, '2019_12_14_000002_create_chart_of_accounts_table', 1),
-(35, '2019_12_14_000003_create_chart_of_account_transactions_table', 1),
-(36, '2022_07_05_093544_create_background_processes_table', 1),
-(37, '2022_07_05_093545_create_background_process_infos_table', 1),
-(38, '2022_07_05_093545_create_notifications_table', 1),
-(39, '2022_09_28_092500_create_settings_table', 1),
-(40, '2022_09_28_092501_create_setting_codes_table', 1),
-(41, '2022_10_03_165627_create_setting_approvals_table', 1),
-(42, '2022_11_02_09520_create_units_table', 1),
-(43, '2022_11_02_095229_create_suppliers_table', 1),
-(44, '2022_11_02_095230_create_supplier_banks_table', 1),
-(45, '2022_11_02_095231_create_supplier_addresses_table', 1),
-(46, '2022_11_02_095232_create_supplier_address_maps_table', 1),
-(47, '2022_11_02_095232_create_supplier_taxes_table', 1),
-(48, '2022_11_02_095233_create_supplier_contacts_table', 1),
-(49, '2022_11_02_095234_create_supplier_files_table', 1),
-(50, '2022_11_02_095235_create_supplier_identities_table', 1),
-(51, '2022_11_02_095258_create_customer_groups_table', 1),
-(52, '2022_11_02_095606_create_customers_table', 1),
-(53, '2022_11_02_095608_create_customer_term_of_payments_table', 1),
-(54, '2022_11_02_095609_create_customer_addresses_table', 1),
-(55, '2022_11_02_095610_create_customer_address_maps_table', 1),
-(56, '2022_11_02_095610_create_customer_contacts_table', 1),
-(57, '2022_11_02_095611_create_customer_taxes_table', 1),
-(58, '2022_11_02_095612_create_customer_banks_table', 1),
-(59, '2022_11_02_095613_create_customer_files_table', 1),
-(60, '2022_11_02_095614_create_customer_identities_table', 1),
-(61, '2022_11_02_095625_create_item_categories_table', 1),
-(62, '2022_11_02_095626_create_items_table', 1),
-(63, '2022_11_02_095627_create_item_identities_table', 1),
-(64, '2022_11_02_095627_create_item_images_table', 1),
-(65, '2022_11_14_165847_create_item_detail_categories_table', 1),
-(66, '2022_11_14_165850_create_item_prices_table', 1),
-(67, '2022_11_14_165851_create_item_price_commissions_table', 1),
-(68, '2022_11_14_165852_create_item_price_poins_table', 1),
-(69, '2022_11_14_165853_create_item_price_quantities_table', 1),
-(70, '2022_11_14_165854_create_item_price_promotions_table', 1),
-(71, '2022_11_14_165855_create_item_price_promotion_free_items_table', 1),
-(72, '2022_11_14_165856_create_item_price_promotion_vouchers_table', 1),
-(73, '2022_11_14_165857_create_item_price_promotion_discounts_table', 1),
-(74, '2022_11_14_165857_create_setting_promotions_table', 1),
-(75, '2022_11_14_165858_create_setting_promotion_free_items_table', 1),
-(76, '2022_11_14_165859_create_setting_promotion_vouchers_table', 1),
-(77, '2022_11_14_165860_create_setting_promotion_discounts_table', 1),
-(78, '2023_01_12_153943_create_quotations_table', 1),
-(79, '2023_01_12_153944_create_quotation_mutiple_discounts_table', 1),
-(80, '2023_01_12_153944_create_quotation_user_approvals_table', 1),
-(81, '2023_01_12_153948_create_quotation_details_table', 1),
-(82, '2023_01_12_153949_create_quotation_detail_multiple_discounts_table', 1),
-(83, '2023_01_16_100400_create_quotation_addionals_table', 1),
-(84, '2023_01_16_100411_create_quotation_shippings_table', 1),
-(85, '2023_01_16_101246_create_quotation_customer_contacts_table', 1),
-(86, '2023_01_16_101251_create_quotation_customer_addresses_table', 1),
-(87, '2023_03_18_115001_create_po_customers_table', 1),
-(88, '2023_03_18_115002_create_po_customer_multiple_accounts_table', 1),
-(89, '2023_03_18_115002_create_po_customer_multiple_discounts_table', 1),
-(90, '2023_03_18_115003_create_po_customer_user_approvals_table', 1),
-(91, '2023_03_18_115038_create_po_customer_details_table', 1),
-(92, '2023_03_18_115039_create_po_customer_detail_multiple_discounts_table', 1),
-(93, '2023_03_18_115115_create_po_customer_addionals_table', 1),
-(94, '2023_03_18_115129_create_po_customer_shippings_table', 1),
-(95, '2023_03_18_115138_create_po_customer_customer_contacts_table', 1),
-(96, '2023_03_18_115146_create_po_customer_customer_addresses_table', 1),
-(97, '2023_03_23_133852_create_po_suppliers_table', 1),
-(98, '2023_03_23_133854_create_po_supplier_multiple_accounts_table', 1),
-(99, '2023_03_23_133855_create_po_supplier_multiple_discounts_table', 1),
-(100, '2023_03_23_133856_create_po_supplier_user_approvals_table', 1),
-(101, '2023_03_23_133902_create_po_supplier_details_table', 1),
-(102, '2023_03_23_133903_create_po_supplier_detail_multiple_discounts_table', 1),
-(103, '2023_03_23_133915_create_po_supplier_addionals_table', 1),
-(104, '2023_03_23_134012_create_po_supplier_supplier_contacts_table', 1),
-(105, '2023_03_23_134017_create_po_supplier_supplier_addresses_table', 1),
-(106, '2023_03_23_134033_create_purchaseings_table', 1),
-(107, '2023_03_23_134034_create_purchaseing_multiple_accounts_table', 1),
-(108, '2023_03_23_134034_create_purchaseing_multiple_discounts_table', 1),
-(109, '2023_03_23_134041_create_purchaseing_details_table', 1),
-(110, '2023_03_23_134042_create_purchaseing_detail_multiple_discounts_table', 1),
-(111, '2023_03_23_134045_create_purchaseing_detail_identities_table', 1),
-(112, '2023_03_23_134046_create_purchaseing_detail_pcs_table', 1),
-(113, '2023_03_23_134057_create_purchaseing_addionals_table', 1),
-(114, '2023_03_23_134108_create_purchaseing_supplier_contacts_table', 1),
-(115, '2023_03_23_134112_create_purchaseing_supplier_addresses_table', 1),
-(116, '2023_03_23_134120_create_purchaseing_debts_table', 1),
-(117, '2023_03_23_134121_create_purchaseing_debt_details_table', 1),
-(118, '2023_03_23_134121_create_purchaseing_debt_multiple_accounts_table', 1),
-(119, '2023_03_23_134200_create_purchaseing_returns_table', 1),
-(120, '2023_03_23_134205_create_purchaseing_return_detail_multiple_discounts_table', 1),
-(121, '2023_03_23_134205_create_purchaseing_return_details_table', 1),
-(122, '2023_03_23_134209_create_purchaseing_return_detail_identities_table', 1),
-(123, '2023_03_23_134210_create_purchaseing_return_detail_pcs_table', 1),
-(124, '2023_03_23_134348_create_purchaseing_return_contacts_table', 1),
-(125, '2023_03_23_134352_create_purchaseing_return_addresses_table', 1),
-(126, '2023_03_23_134442_create_sellings_table', 1),
-(127, '2023_03_23_134443_create_selling_commission_saleses_table', 1),
-(128, '2023_03_23_134443_create_selling_mutliple_discounts_table', 1),
-(129, '2023_03_23_134443_create_selling_poins_table', 1),
-(130, '2023_03_23_134443_create_selling_promotions_table', 1),
-(131, '2023_03_23_134444_create_selling_promotion_items_table', 1),
-(132, '2023_03_23_134444_create_selling_promotion_nested_discounts_table', 1),
-(133, '2023_03_23_134446_create_selling_details_table', 1),
-(134, '2023_03_23_134446_create_selling_multiple_accounts_table', 1),
-(135, '2023_03_23_134447_create_selling_detail_commission_saleses_table', 1),
-(136, '2023_03_23_134447_create_selling_detail_pcs_table', 1),
-(137, '2023_03_23_134448_create_selling_detail_mutliple_discounts_table', 1),
-(138, '2023_03_23_134449_create_selling_detail_poins_table', 1),
-(139, '2023_03_23_134450_create_selling_detail_identities_table', 1),
-(140, '2023_03_23_134452_create_selling_detail_promotions_table', 1),
-(141, '2023_03_23_134453_create_selling_detail_promotion_items_table', 1),
-(142, '2023_03_23_134453_create_selling_detail_promotion_nested_discounts_table', 1),
-(143, '2023_03_23_134506_create_selling_addionals_table', 1),
-(144, '2023_03_23_134522_create_selling_shippings_table', 1),
-(145, '2023_03_23_134533_create_selling_customer_contacts_table', 1),
-(146, '2023_03_23_134537_create_selling_customer_addresses_table', 1),
-(147, '2023_03_23_134547_create_selling_receivables_table', 1),
-(148, '2023_03_23_134548_create_selling_receivable_details_table', 1),
-(149, '2023_03_23_134548_create_selling_receivable_multiple_accounts_table', 1),
-(150, '2023_03_23_134558_create_selling_returns_table', 1),
-(151, '2023_03_23_134602_create_selling_return_details_table', 1),
-(152, '2023_03_23_134603_create_selling_return_detail_multiple_discounts_table', 1),
-(153, '2023_03_23_134607_create_selling_return_detail_identities_table', 1),
-(154, '2023_03_23_134631_create_selling_return_contacts_table', 1),
-(155, '2023_03_23_134636_create_selling_return_addresses_table', 1),
-(156, '2023_03_23_134805_create_delivery_orders_table', 1),
-(157, '2023_03_23_134813_create_delivery_order_details_table', 1),
-(158, '2023_03_23_134919_create_delivery_order_shippings_table', 1),
-(159, '2023_03_23_134929_create_delivery_order_customer_contacts_table', 1),
-(160, '2023_03_23_134934_create_delivery_order_customer_addresses_table', 1),
-(161, '2023_03_23_134935_create_commission_sales_transfers_table', 1),
-(162, '2023_03_23_134936_create_commission_sales_transfer_details_table', 1),
-(163, '2023_03_23_135036_create_stock_cards_table', 1),
-(164, '2023_03_23_135037_create_debt_cards_table', 1),
-(165, '2023_03_23_135038_create_receivable_cards_table', 1),
-(166, '2023_03_23_135039_create_cost_of_products_sold_cards_table', 1),
-(167, '2023_03_23_135040_create_commission_sales_cards_table', 1),
-(168, '2023_03_23_135041_create_poin_cards_table', 1),
-(169, '2023_03_23_135042_create_warehouse_stocks_table', 1),
-(170, '2023_03_23_135045_create_stock_opnames_table', 1),
-(171, '2023_03_23_135046_create_stock_opname_details_table', 1),
-(172, '2023_03_23_135046_create_stock_opname_identities_table', 1),
-(173, '2023_03_23_135047_create_stock_opname_pcs_table', 1),
-(174, '2023_03_23_135049_create_stock_mutations_table', 1),
-(175, '2023_03_23_135050_create_stock_mutation_details_table', 1),
-(176, '2023_03_23_135051_create_stock_mutation_detail_pcs_table', 1),
-(177, '2023_03_23_135053_create_stock_outs_table', 1),
-(178, '2023_03_23_135057_create_stock_out_details_table', 1),
-(179, '2023_03_23_135058_create_stock_out_detail_identities_table', 1),
-(180, '2023_03_23_135059_create_stock_out_detail_pcs_table', 1),
-(181, '2023_03_23_135105_create_stock_ins_table', 1),
-(182, '2023_03_23_135109_create_stock_in_details_table', 1),
-(183, '2023_03_23_135110_create_stock_in_detail_identities_table', 1),
-(184, '2023_03_23_135120_create_stock_in_detail_pcs_table', 1),
-(185, '2023_03_23_135250_create_formula_material_items_table', 1),
-(186, '2023_03_23_135255_create_formula_material_item_details_table', 1),
-(187, '2023_03_23_135256_create_formula_material_item_steps_table', 1),
-(188, '2023_03_23_135317_create_production_divisions_table', 1),
-(189, '2023_03_23_135349_create_account_balances_table', 1),
-(190, '2023_03_23_135353_create_cash_ins_table', 1),
-(191, '2023_03_23_135356_create_cash_in_details_table', 1),
-(192, '2023_03_23_135403_create_cash_outs_table', 1),
-(193, '2023_03_23_135407_create_cash_out_details_table', 1),
-(194, '2023_03_23_135420_create_journals_table', 1),
-(195, '2023_03_23_135425_create_journal_details_table', 1),
-(196, '2023_03_23_135426_create_cash_mutations_table', 1),
-(197, '2023_03_23_135427_create_cash_mutation_details_table', 1),
-(198, '2023_06_18_212201_create_receivable_saldo_cards_table', 1),
-(199, '2023_06_18_212212_create_debt_saldo_cards_table', 1),
-(200, '2023_07_12_211801_create_summary_transactions_table', 1),
-(201, '2024_02_17_150131_create_selling_return_detail_pcs_table', 1),
-(202, '2024_04_19_112237_create_group_assets_table', 1),
-(203, '2024_04_19_112533_create_fixed_assets_table', 1),
-(204, '2024_06_26_205511_create_customer_saldo_cards_table', 1),
-(205, '2024_07_15_163428_create_user_saldo_cards_table', 1),
-(206, '2024_09_28_113538_create_batch_wos_table', 1),
-(207, '2024_09_28_113539_create_batch_wo_user_approvals_table', 1),
-(208, '2024_09_28_113757_create_batch_wods_table', 1),
-(209, '2024_09_28_113803_create_batch_mrs_table', 1),
-(210, '2024_09_28_113809_create_batch_mrds_table', 1),
-(211, '2024_09_28_113814_create_batch_mrdfs_table', 1),
-(212, '2024_09_28_113829_create_batch_mrdf_pcs_table', 1),
-(213, '2024_09_28_113837_create_batch_mrd_steps_table', 1),
-(214, '2024_09_28_113837_create_batch_mrdf_identities_table', 1),
-(215, '2024_09_28_113915_create_batch_pns_table', 1),
-(216, '2024_09_28_113924_create_batch_pnds_table', 1),
-(217, '2024_09_28_113927_create_batch_pnd_steps_table', 1),
-(218, '2024_09_28_113927_create_batch_pndf_identities_table', 1),
-(219, '2024_09_28_113927_create_batch_pndf_pcs_table', 1),
-(220, '2024_09_28_113927_create_batch_pndfs_table', 1),
-(221, '2024_09_28_113940_create_batch_stws_table', 1),
-(222, '2024_09_28_113943_create_batch_stwds_table', 1),
-(223, '2024_09_28_113947_create_batch_stwd_pcs_table', 1),
-(224, '2024_09_28_113952_create_batch_stwd_identities_table', 1),
-(225, '2025_03_11_105805_create_batch_stwdfs_table', 1),
-(226, '2025_03_11_105844_create_batch_stwdf_identities_table', 1),
-(227, '2025_03_11_105855_create_batch_stwdf_pcs_table', 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `notifications`
 --
 
@@ -4674,204 +4341,6 @@ CREATE TABLE `purchaseing_supplier_contacts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `quotations`
---
-
-CREATE TABLE `quotations` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `code` varchar(25) DEFAULT NULL,
-  `customer_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `customer_group_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `seller_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `date` timestamp NULL DEFAULT NULL,
-  `expired_date` timestamp NULL DEFAULT NULL,
-  `total` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `discount` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `grand_total` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `discount_type` varchar(50) NOT NULL DEFAULT 'NOMINAL',
-  `description` text DEFAULT NULL,
-  `document` varchar(100) DEFAULT NULL,
-  `revision_number` bigint(20) NOT NULL DEFAULT 0,
-  `status` varchar(50) NOT NULL DEFAULT 'PENDING',
-  `tax` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `tax_value_other` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `tax_core_tax` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `rounding_selling` varchar(50) NOT NULL DEFAULT 'NO_ROUNDING',
-  `rounding_divider_selling` decimal(20,2) NOT NULL,
-  `is_tax_selling_active` tinyint(1) NOT NULL DEFAULT 1,
-  `is_discount_selling_active` tinyint(1) NOT NULL DEFAULT 1,
-  `is_include_tax_selling` tinyint(1) NOT NULL DEFAULT 1,
-  `is_connected_sales_selling` tinyint(1) NOT NULL DEFAULT 0,
-  `is_show_shipping_selling` tinyint(1) NOT NULL DEFAULT 0,
-  `is_using_multiple_discount` tinyint(1) NOT NULL DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quotation_addionals`
---
-
-CREATE TABLE `quotation_addionals` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `quotation_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `title` varchar(100) DEFAULT NULL,
-  `action` varchar(50) NOT NULL DEFAULT 'CREDIT',
-  `position` varchar(50) NOT NULL DEFAULT 'AFTER_TOTAL',
-  `nominal` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quotation_customer_addresses`
---
-
-CREATE TABLE `quotation_customer_addresses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `quotation_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `country` varchar(50) DEFAULT NULL,
-  `province` varchar(50) DEFAULT NULL,
-  `city` varchar(50) DEFAULT NULL,
-  `district` varchar(50) DEFAULT NULL,
-  `postal_code` varchar(10) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quotation_customer_contacts`
---
-
-CREATE TABLE `quotation_customer_contacts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `quotation_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `phone` varchar(50) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quotation_details`
---
-
-CREATE TABLE `quotation_details` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `quotation_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `item_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `customer_group_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `seller_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `code` varchar(50) DEFAULT NULL,
-  `unit` varchar(50) DEFAULT NULL,
-  `smallest_unit` varchar(255) DEFAULT NULL,
-  `purchase_price` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `selling_price` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `quantity` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `real_quantity` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `discount` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `tax` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `amount` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `is_using_tax` tinyint(1) NOT NULL DEFAULT 1,
-  `is_free_tax` tinyint(1) NOT NULL DEFAULT 0,
-  `rack` varchar(50) DEFAULT NULL,
-  `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `unit_mass` varchar(50) NOT NULL DEFAULT 'g',
-  `width` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `height` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `length` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `thickness` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `unit_metric` varchar(50) NOT NULL DEFAULT 'cm',
-  `description` text DEFAULT NULL,
-  `warranty` bigint(20) NOT NULL DEFAULT 0,
-  `warranty_type` varchar(50) NOT NULL DEFAULT 'NONE',
-  `is_using_multiple_discount` tinyint(1) NOT NULL DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quotation_detail_multiple_discounts`
---
-
-CREATE TABLE `quotation_detail_multiple_discounts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `quotation_detail_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `percentage` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `nominal` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quotation_multiple_discounts`
---
-
-CREATE TABLE `quotation_multiple_discounts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `quotation_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `percentage` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `nominal` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quotation_shippings`
---
-
-CREATE TABLE `quotation_shippings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `quotation_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `type` varchar(50) NOT NULL DEFAULT 'NONE',
-  `name` varchar(50) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `origin` varchar(200) DEFAULT NULL,
-  `destination` varchar(200) DEFAULT NULL,
-  `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `price` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `reciept_number` varchar(100) DEFAULT NULL,
-  `estimation_date` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quotation_user_approvals`
---
-
-CREATE TABLE `quotation_user_approvals` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `quotation_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `receivable_cards`
 --
 
@@ -5159,7 +4628,7 @@ CREATE TABLE `selling_details` (
   `amount` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `is_using_tax` tinyint(1) NOT NULL DEFAULT 1,
   `is_free_tax` tinyint(1) NOT NULL DEFAULT 0,
-  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00000000000000,
+  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `rack` varchar(50) DEFAULT NULL,
   `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
   `unit_mass` varchar(50) NOT NULL DEFAULT 'g',
@@ -5625,7 +5094,7 @@ CREATE TABLE `selling_return_details` (
   `amount` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `is_using_tax` tinyint(1) NOT NULL DEFAULT 1,
   `is_free_tax` tinyint(1) NOT NULL DEFAULT 0,
-  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00000000000000,
+  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `rack` varchar(50) DEFAULT NULL,
   `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
   `unit_mass` varchar(50) NOT NULL DEFAULT 'g',
@@ -6071,8 +5540,8 @@ CREATE TABLE `stock_cards` (
   `production_code` varchar(50) DEFAULT NULL,
   `in_nominal` decimal(20,2) NOT NULL DEFAULT 0.00,
   `out_nominal` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `cost_of_products_sold_old` decimal(20,2) NOT NULL DEFAULT 0.00000000000000,
-  `cost_of_products_sold_new` decimal(20,2) NOT NULL DEFAULT 0.00000000000000,
+  `cost_of_products_sold_old` decimal(20,2) NOT NULL DEFAULT 0.00,
+  `cost_of_products_sold_new` decimal(20,2) NOT NULL DEFAULT 0.00,
   `description` text DEFAULT NULL,
   `reference_code` varchar(50) DEFAULT NULL,
   `date` timestamp NULL DEFAULT NULL,
@@ -6116,7 +5585,7 @@ CREATE TABLE `stock_in_details` (
   `selling_price` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `quantity` decimal(20,2) NOT NULL DEFAULT 0.00,
   `real_quantity` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00000000000000,
+  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `rack` varchar(50) DEFAULT NULL,
   `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
   `unit_mass` varchar(50) NOT NULL DEFAULT 'g',
@@ -6196,7 +5665,7 @@ CREATE TABLE `stock_mutation_details` (
   `smallest_unit` varchar(255) DEFAULT NULL,
   `quantity` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `real_quantity` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00000000000000,
+  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `rack` varchar(50) DEFAULT NULL,
   `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
   `unit_mass` varchar(50) NOT NULL DEFAULT 'g',
@@ -6265,7 +5734,7 @@ CREATE TABLE `stock_opname_details` (
   `backend_stock` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `frontend_stock` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `difference_stock` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00000000000000,
+  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `rack` varchar(50) DEFAULT NULL,
   `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
   `unit_mass` varchar(50) NOT NULL DEFAULT 'g',
@@ -6349,7 +5818,7 @@ CREATE TABLE `stock_out_details` (
   `selling_price` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `quantity` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `real_quantity` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00000000000000,
+  `cost_of_products_sold` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
   `rack` varchar(50) DEFAULT NULL,
   `weight` decimal(20,2) NOT NULL DEFAULT 0.00,
   `unit_mass` varchar(50) NOT NULL DEFAULT 'g',
@@ -6391,22 +5860,6 @@ CREATE TABLE `stock_out_detail_pcs` (
   `production_code_date` date DEFAULT NULL,
   `production_code` varchar(50) DEFAULT NULL,
   `quantity` decimal(20,2) UNSIGNED NOT NULL DEFAULT 0.00,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `summary_transactions`
---
-
-CREATE TABLE `summary_transactions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(25) DEFAULT NULL,
-  `amount` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `start_date` timestamp NULL DEFAULT NULL,
-  `end_date` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -7521,36 +6974,6 @@ ALTER TABLE `divisions`
   ADD KEY `divisions_name_index` (`name`);
 
 --
--- Indexes for table `expeditions`
---
-ALTER TABLE `expeditions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `expeditions_code_unique` (`code`),
-  ADD KEY `expeditions_name_index` (`name`);
-
---
--- Indexes for table `expedition_destination_maps`
---
-ALTER TABLE `expedition_destination_maps`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `expedition_destination_maps_expedition_id_foreign` (`expedition_id`);
-
---
--- Indexes for table `expedition_origin_maps`
---
-ALTER TABLE `expedition_origin_maps`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `expedition_origin_maps_expedition_id_foreign` (`expedition_id`);
-
---
--- Indexes for table `expedition_prices`
---
-ALTER TABLE `expedition_prices`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `expedition_prices_expedition_id_foreign` (`expedition_id`),
-  ADD KEY `expedition_prices_name_index` (`name`);
-
---
 -- Indexes for table `fixed_assets`
 --
 ALTER TABLE `fixed_assets`
@@ -7746,12 +7169,6 @@ ALTER TABLE `journal_details`
   ADD PRIMARY KEY (`id`),
   ADD KEY `journal_details_chart_of_account_id_foreign` (`chart_of_account_id`),
   ADD KEY `journal_details_journal_id_foreign` (`journal_id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `notifications`
@@ -8104,77 +7521,6 @@ ALTER TABLE `purchaseing_supplier_addresses`
 ALTER TABLE `purchaseing_supplier_contacts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `purchaseing_supplier_contacts_purchaseing_id_foreign` (`purchaseing_id`);
-
---
--- Indexes for table `quotations`
---
-ALTER TABLE `quotations`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `quotations_code_unique` (`code`),
-  ADD KEY `quotations_customer_id_foreign` (`customer_id`),
-  ADD KEY `quotations_customer_group_id_foreign` (`customer_group_id`),
-  ADD KEY `quotations_user_id_foreign` (`user_id`),
-  ADD KEY `quotations_seller_id_foreign` (`seller_id`);
-
---
--- Indexes for table `quotation_addionals`
---
-ALTER TABLE `quotation_addionals`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quotation_addionals_quotation_id_foreign` (`quotation_id`);
-
---
--- Indexes for table `quotation_customer_addresses`
---
-ALTER TABLE `quotation_customer_addresses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quotation_customer_addresses_quotation_id_foreign` (`quotation_id`);
-
---
--- Indexes for table `quotation_customer_contacts`
---
-ALTER TABLE `quotation_customer_contacts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quotation_customer_contacts_quotation_id_foreign` (`quotation_id`);
-
---
--- Indexes for table `quotation_details`
---
-ALTER TABLE `quotation_details`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quotation_details_customer_group_id_foreign` (`customer_group_id`),
-  ADD KEY `quotation_details_seller_id_foreign` (`seller_id`),
-  ADD KEY `quotation_details_item_id_foreign` (`item_id`),
-  ADD KEY `quotation_details_quotation_id_foreign` (`quotation_id`);
-
---
--- Indexes for table `quotation_detail_multiple_discounts`
---
-ALTER TABLE `quotation_detail_multiple_discounts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quotation_detail_multiple_discounts_quotation_detail_id_foreign` (`quotation_detail_id`);
-
---
--- Indexes for table `quotation_multiple_discounts`
---
-ALTER TABLE `quotation_multiple_discounts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quotation_multiple_discounts_quotation_id_foreign` (`quotation_id`);
-
---
--- Indexes for table `quotation_shippings`
---
-ALTER TABLE `quotation_shippings`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quotation_shippings_quotation_id_foreign` (`quotation_id`);
-
---
--- Indexes for table `quotation_user_approvals`
---
-ALTER TABLE `quotation_user_approvals`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quotation_user_approvals_user_id_foreign` (`user_id`),
-  ADD KEY `quotation_user_approvals_quotation_id_foreign` (`quotation_id`);
 
 --
 -- Indexes for table `receivable_cards`
@@ -8642,15 +7988,6 @@ ALTER TABLE `stock_out_detail_identities`
 ALTER TABLE `stock_out_detail_pcs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `stock_out_detail_pcs_stock_out_detail_id_foreign` (`stock_out_detail_id`);
-
---
--- Indexes for table `summary_transactions`
---
-ALTER TABLE `summary_transactions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `summary_transactions_name_index` (`name`),
-  ADD KEY `summary_transactions_start_date_index` (`start_date`),
-  ADD KEY `summary_transactions_end_date_index` (`end_date`);
 
 --
 -- Indexes for table `suppliers`
@@ -9236,30 +8573,6 @@ ALTER TABLE `divisions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `expeditions`
---
-ALTER TABLE `expeditions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `expedition_destination_maps`
---
-ALTER TABLE `expedition_destination_maps`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `expedition_origin_maps`
---
-ALTER TABLE `expedition_origin_maps`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `expedition_prices`
---
-ALTER TABLE `expedition_prices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
 -- AUTO_INCREMENT for table `fixed_assets`
 --
 ALTER TABLE `fixed_assets`
@@ -9396,12 +8709,6 @@ ALTER TABLE `journals`
 --
 ALTER TABLE `journal_details`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -9671,60 +8978,6 @@ ALTER TABLE `purchaseing_supplier_addresses`
 -- AUTO_INCREMENT for table `purchaseing_supplier_contacts`
 --
 ALTER TABLE `purchaseing_supplier_contacts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotations`
---
-ALTER TABLE `quotations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotation_addionals`
---
-ALTER TABLE `quotation_addionals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotation_customer_addresses`
---
-ALTER TABLE `quotation_customer_addresses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotation_customer_contacts`
---
-ALTER TABLE `quotation_customer_contacts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotation_details`
---
-ALTER TABLE `quotation_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotation_detail_multiple_discounts`
---
-ALTER TABLE `quotation_detail_multiple_discounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotation_multiple_discounts`
---
-ALTER TABLE `quotation_multiple_discounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotation_shippings`
---
-ALTER TABLE `quotation_shippings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `quotation_user_approvals`
---
-ALTER TABLE `quotation_user_approvals`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -10067,12 +9320,6 @@ ALTER TABLE `stock_out_detail_identities`
 -- AUTO_INCREMENT for table `stock_out_detail_pcs`
 --
 ALTER TABLE `stock_out_detail_pcs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `summary_transactions`
---
-ALTER TABLE `summary_transactions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -10656,24 +9903,6 @@ ALTER TABLE `divisions`
   ADD CONSTRAINT `divisions_department_id_foreign` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Constraints for table `expedition_destination_maps`
---
-ALTER TABLE `expedition_destination_maps`
-  ADD CONSTRAINT `expedition_destination_maps_expedition_id_foreign` FOREIGN KEY (`expedition_id`) REFERENCES `expeditions` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `expedition_origin_maps`
---
-ALTER TABLE `expedition_origin_maps`
-  ADD CONSTRAINT `expedition_origin_maps_expedition_id_foreign` FOREIGN KEY (`expedition_id`) REFERENCES `expeditions` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `expedition_prices`
---
-ALTER TABLE `expedition_prices`
-  ADD CONSTRAINT `expedition_prices_expedition_id_foreign` FOREIGN KEY (`expedition_id`) REFERENCES `expeditions` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
 -- Constraints for table `fixed_assets`
 --
 ALTER TABLE `fixed_assets`
@@ -11089,67 +10318,6 @@ ALTER TABLE `purchaseing_supplier_addresses`
 --
 ALTER TABLE `purchaseing_supplier_contacts`
   ADD CONSTRAINT `purchaseing_supplier_contacts_purchaseing_id_foreign` FOREIGN KEY (`purchaseing_id`) REFERENCES `purchaseings` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotations`
---
-ALTER TABLE `quotations`
-  ADD CONSTRAINT `quotations_customer_group_id_foreign` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_groups` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `quotations_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `quotations_seller_id_foreign` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `quotations_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotation_addionals`
---
-ALTER TABLE `quotation_addionals`
-  ADD CONSTRAINT `quotation_addionals_quotation_id_foreign` FOREIGN KEY (`quotation_id`) REFERENCES `quotations` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotation_customer_addresses`
---
-ALTER TABLE `quotation_customer_addresses`
-  ADD CONSTRAINT `quotation_customer_addresses_quotation_id_foreign` FOREIGN KEY (`quotation_id`) REFERENCES `quotations` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotation_customer_contacts`
---
-ALTER TABLE `quotation_customer_contacts`
-  ADD CONSTRAINT `quotation_customer_contacts_quotation_id_foreign` FOREIGN KEY (`quotation_id`) REFERENCES `quotations` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotation_details`
---
-ALTER TABLE `quotation_details`
-  ADD CONSTRAINT `quotation_details_customer_group_id_foreign` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_groups` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `quotation_details_item_id_foreign` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `quotation_details_quotation_id_foreign` FOREIGN KEY (`quotation_id`) REFERENCES `quotations` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `quotation_details_seller_id_foreign` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotation_detail_multiple_discounts`
---
-ALTER TABLE `quotation_detail_multiple_discounts`
-  ADD CONSTRAINT `quotation_detail_multiple_discounts_quotation_detail_id_foreign` FOREIGN KEY (`quotation_detail_id`) REFERENCES `quotation_details` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotation_multiple_discounts`
---
-ALTER TABLE `quotation_multiple_discounts`
-  ADD CONSTRAINT `quotation_multiple_discounts_quotation_id_foreign` FOREIGN KEY (`quotation_id`) REFERENCES `quotations` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotation_shippings`
---
-ALTER TABLE `quotation_shippings`
-  ADD CONSTRAINT `quotation_shippings_quotation_id_foreign` FOREIGN KEY (`quotation_id`) REFERENCES `quotations` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `quotation_user_approvals`
---
-ALTER TABLE `quotation_user_approvals`
-  ADD CONSTRAINT `quotation_user_approvals_quotation_id_foreign` FOREIGN KEY (`quotation_id`) REFERENCES `quotations` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `quotation_user_approvals_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `receivable_cards`
@@ -11672,6 +10840,7 @@ ALTER TABLE `warehouse_contacts`
 ALTER TABLE `warehouse_stocks`
   ADD CONSTRAINT `warehouse_stocks_item_id_foreign` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `warehouse_stocks_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
