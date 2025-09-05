@@ -17,16 +17,6 @@ func SetupRoutes(app *fiber.App, db *gorm.DB, debug string) {
 	// GLOBAL MIDDLEWARE
 	app.Use(middlewares.MiddlewareGlobal(db, debug))
 
-	// JWT MIDDLEWARE
-	app.Use(jwtware.New(jwtware.Config{
-		SigningKey: []byte("secret"),
-		ErrorHandler: func(c *fiber.Ctx, err error) error {
-			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"message": "Token tidak valid",
-			})
-		},
-	}))
-
 	// ASSET MIDDLEWARE
 	app.Static("/assets", "./assets")
 
@@ -39,6 +29,16 @@ func SetupRoutes(app *fiber.App, db *gorm.DB, debug string) {
 	})
 
 	api.Post("/login", auth.Login)
+
+	// JWT MIDDLEWARE
+	app.Use(jwtware.New(jwtware.Config{
+		SigningKey: []byte("secret"),
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Token tidak valid",
+			})
+		},
+	}))
 
 	setupAuth(api)
 }
