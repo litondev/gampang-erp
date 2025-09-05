@@ -33,8 +33,6 @@ class Sidebar extends StatelessWidget{
             }
           ),
 
-         Divider(),
-
           Divider(),
 
           ListTile(

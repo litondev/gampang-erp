@@ -11,9 +11,11 @@ import './core/utils/convertors.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
-
+  
   final prefs = await SharedPreferences.getInstance();
+  
   final isLogin = UtilConvertors.stringToBool(prefs.getString('token'));
+
   runApp(MyApp(isLogin));
 }
 

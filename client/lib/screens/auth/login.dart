@@ -202,19 +202,12 @@ class SigninScreenState extends State<SigninScreen>{
         }else if(response.statusCode == 200){
           var responseBody = json.decode(response.body);
 
-          print(responseBody);
-
           final prefs = await SharedPreferences.getInstance();
-
-          print("asd");
 
           await prefs.setString('token', 'Bearer ' + responseBody["token"]);
                     
-          print("ASdad");
           final userService = MeService();
           final user = await userService.getMe();
-
-          print(user);
 
           Provider.of<UserProvider>(context,listen: false).setUser(ModelUser(
             id : user?.id,
@@ -224,18 +217,13 @@ class SigninScreenState extends State<SigninScreen>{
 
           Provider.of<UserProvider>(context,listen: false).setIsLogin(true);        
         }else{
-
           print(response.statusCode);
-          
         
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Terjadi Kesalahan")),
           );
         }
     }catch(e,stackTrace){
-      print("ASD");
-      print(e);
-
       debugPrintStack(stackTrace: stackTrace);
 
       ScaffoldMessenger.of(context).clearSnackBars();
