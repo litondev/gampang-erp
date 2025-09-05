@@ -10,11 +10,15 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	// Load Env
-	config.LoadEnv()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	// Load Db
 	db, errDb := config.Database()
@@ -25,7 +29,7 @@ func main() {
 	}
 
 	// Debug
-	debug := config.GetEnv("APP_DEBUG")
+	debug := os.Getenv("APP_DEBUG")
 
 	appDebug, errDebug := strconv.ParseBool(debug)
 	if errDebug != nil {
@@ -42,7 +46,7 @@ func main() {
 				code = e.Code
 			}
 
-			logFile, logFileError := os.OpenFile(config.GetEnv("APP_LOGGER_LOCATION"), os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+			logFile, logFileError := os.OpenFile(os.Getenv("APP_LOGGER_LOCATION"), os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 
 			if logFileError != nil {
 				ctx.Status(500).JSON(fiber.Map{
@@ -85,5 +89,5 @@ func main() {
 	routes.SetupRoutes(app, db, debug)
 
 	// Run Server
-	log.Fatal(app.Listen(config.GetEnv("APP_HOST") + ":" + config.GetEnv("APP_PORT")))
+	log.Fatal(app.Listen(os.Getenv("APP_HOST") + ":" + os.Getenv("APP_PORT")))
 }

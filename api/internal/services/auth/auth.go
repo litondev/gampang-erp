@@ -3,7 +3,7 @@ package auth
 import (
 	"api/internal/models"
 	repository "api/internal/repositories/auth"
-	"api/pkg" // untuk CheckPasswordHash
+	"api/pkg"
 	"errors"
 	"time"
 
@@ -38,7 +38,7 @@ func LoginService(db *gorm.DB, username, password string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	accessToken, err := token.SignedString([]byte("secret"))
 	if err != nil {
-		return "", err
+		return "", pkg.WrapError(err)
 	}
 
 	return accessToken, nil

@@ -21,15 +21,22 @@ func Login(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&body); err != nil {
 		fmt.Println("Error:", err)
-		return c.Status(400).JSON(fiber.Map{"message": "Terjadi kesalahan"})
+		return c.Status(400).JSON(fiber.Map{
+			"message": "terjadi kesalahan",
+		})
 	}
 
 	token, err := service.LoginService(db, body.Username, body.Password)
 	if err != nil {
-		return c.Status(401).JSON(fiber.Map{"message": err.Error()})
+		fmt.Println("Error:", err)
+		return c.Status(401).JSON(fiber.Map{
+			"message": err.Error(),
+		})
 	}
 
-	return c.Status(200).JSON(fiber.Map{"token": token})
+	return c.Status(200).JSON(fiber.Map{
+		"token": token,
+	})
 }
 
 func Me(c *fiber.Ctx) error {
@@ -43,7 +50,11 @@ func Me(c *fiber.Ctx) error {
 
 	user, err := service.MeService(db, id)
 	if err != nil {
-		return c.Status(404).JSON(fiber.Map{"message": err.Error()})
+		fmt.Println("Error:", err)
+
+		return c.Status(404).JSON(fiber.Map{
+			"message": err.Error(),
+		})
 	}
 
 	return c.Status(200).JSON(user)
@@ -69,11 +80,13 @@ func RefreshToken(c *fiber.Ctx) error {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	access_token, errSigned := token.SignedString([]byte("secret"))
+	access_token, err := token.SignedString([]byte("secret"))
 
-	if errSigned != nil {
+	if err != nil {
+		fmt.Println("Error:", err)
+
 		return c.Status(401).JSON(fiber.Map{
-			"message": "Terjadi Kesalahan",
+			"message": "token tidak valid",
 		})
 	}
 

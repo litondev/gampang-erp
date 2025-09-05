@@ -7,4 +7,5 @@ class AppColors {
   static const Color textSecondary = Color.fromARGB(255, 255, 255, 255);
 
   static const Color error = Color(0xFFF44336);
+  static const Color success = Color.fromARGB(255, 54, 244, 67);
 }

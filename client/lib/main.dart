@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import "./screens/auth/login.dart";
 import "./screens/dashboard.dart";
@@ -12,9 +12,13 @@ import './core/utils/convertors.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
   
-  final prefs = await SharedPreferences.getInstance();
+  final storage = const FlutterSecureStorage();
   
-  final isLogin = UtilConvertors.stringToBool(prefs.getString('token'));
+  String? token = await storage.read(key: "token");
+
+  final isLogin = UtilConvertors.stringToBool(token);
+
+  // BISA PANGGIL ME DISINI
 
   runApp(MyApp(isLogin));
 }

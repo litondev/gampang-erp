@@ -1,8 +1,8 @@
 // PERLUD DIUBAH
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../providers/user.dart';
 
@@ -56,9 +56,9 @@ class Sidebar extends StatelessWidget{
   }
 
   void onLogout(context) async{
-    final prefs = await SharedPreferences.getInstance();
+    final storage = const FlutterSecureStorage();
 
-    await prefs.remove('token');
+    await storage.delete(key: "token");
 
     Provider.of<UserProvider>(context,listen : false).setIsLogin(false);
     
