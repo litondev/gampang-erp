@@ -1,4 +1,4 @@
-name: "Gampang Erp"
+name: GampangErp
 description: "Gampang Erp"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -46,7 +46,7 @@ dependencies:
   printing: ^5.14.2
   blue_thermal_printer: ^1.2.3
   file_picker: ^10.3.2
-  responsive_framework: ^1.5.1
+
 
 dev_dependencies:
   flutter_test:

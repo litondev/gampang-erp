@@ -57,6 +57,9 @@ class LoginScreenState extends State<LoginScreen>{
     return TextFormField(
       decoration: InputDecoration(
         labelText: "Username",
+        labelStyle : TextStyle(
+          fontSize: 10
+        )
       ),
       validator: (value) {        
         if(value!.isEmpty){
@@ -73,9 +76,23 @@ class LoginScreenState extends State<LoginScreen>{
 
   Widget PasswordField(){
     return TextFormField(
+      style : TextStyle(
+        fontSize: 10 
+      ),
       obscureText: true,
       decoration: InputDecoration(
         labelText: "Password",
+        labelStyle : TextStyle(
+          fontSize: 10
+        ),
+        floatingLabelStyle : TextStyle(
+          fontSize: 8
+        ),errorStyle: TextStyle(
+      color: Colors.red,       // warna font error
+      fontSize: 14,            // ukuran font
+      fontWeight: FontWeight.bold, // tebal
+      fontStyle: FontStyle.italic, // miring
+    ),
       ),
       validator: (value){
         if(value!.isEmpty){
@@ -96,19 +113,25 @@ class LoginScreenState extends State<LoginScreen>{
 
   Widget LoginButton(){
     return ElevatedButton(
-      style: ButtonStyle(
-        foregroundColor: WidgetStateProperty.all(AppColors.textSecondary),
-        backgroundColor: WidgetStateProperty.all(AppColors.backgroundPrimary)
+      style: ElevatedButton.styleFrom(
+         foregroundColor: AppColors.textSecondary,
+        backgroundColor:  isLoadingForm == true 
+          ? Colors.grey
+          : AppColors.backgroundPrimary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18), // radius sudut
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // optional
       ),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             isLoadingForm == true
-              ? Spinner( icon: Icons.rotate_right )        
-              : Icon( Icons.save),
+              ? Spinner(icon: Icons.rotate_right)        
+              : Icon(Icons.save_alt_outlined),
             Padding(
-              padding: EdgeInsets.only(left : 5),
+              padding: EdgeInsets.only(left : 1),
               child : Text("Kirim")
             )
           ],

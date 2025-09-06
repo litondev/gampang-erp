@@ -4,8 +4,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import "./screens/auth/login.dart";
-import "./screens/dashboard.dart";
+// import "./screens/dashboard.dart";
 import './providers/user.dart';
+import './providers/sidebar.dart';
 import './configs/themes.dart';
 import './core/utils/convertors.dart';
 
@@ -32,8 +33,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers : [
         ChangeNotifierProvider(
-          create: (context) => UserProvider(isLogin)
+          create: (context) => UserProvider(isLogin),
         ),
+        ChangeNotifierProvider(create: (_) => SelectedMenuProvider()),
       ],
       child : MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -41,8 +43,7 @@ class MyApp extends StatelessWidget {
         theme: AppThemes.lightTheme, 
         initialRoute: '/',
         routes: {
-          '/' : (context) => Login(context),
-          '/dashboard' : (context) => Dashboard(context)
+          '/' : (context) => Login(context)
         },
       )    
     );

@@ -71,4 +71,3 @@ samples, guidance on mobile development, and a full API reference.
     Dipakai di aplikasi kasir / POS untuk cetak struk.
     ⚠️ Hanya support Android & iOS (belum ada Web/Desktop).
 13. file_picker
-14. responsive_framework
