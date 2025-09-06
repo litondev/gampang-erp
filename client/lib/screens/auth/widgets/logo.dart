@@ -9,7 +9,7 @@ class LogoWidget extends StatelessWidget {
       'images/logo.png',
       alignment: Alignment.center,
       width: double.infinity,
-      height: 200,
+      height: 80,
     );
   }
 }

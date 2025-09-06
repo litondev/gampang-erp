@@ -38,7 +38,9 @@ class LoginScreenState extends State<LoginScreen>{
         child: Column(
           children: [
             UsernameField(),
+            SizedBox(height: 20),
             PasswordField(),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
