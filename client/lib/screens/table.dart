@@ -20,6 +20,7 @@ class TablePage extends StatelessWidget {
     ];
 
     return Scaffold(
+      backgroundColor: Colors.transparent, 
       appBar: AppBar(title: const Text("Responsive Table")),
       body: ResponsiveTable(
         rows: rows,

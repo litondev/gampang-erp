@@ -20,7 +20,6 @@ class ResponsiveTable extends StatelessWidget {
     final bool isMobile = width < 600;
 
     if (isMobile) {
-      // 📱 Card list untuk mobile
       return ListView.builder(
         itemCount: rows.length,
         itemBuilder: (context, index) {
@@ -56,10 +55,9 @@ class ResponsiveTable extends StatelessWidget {
       );
     }
 
-    // 💻 DataTable untuk desktop
-    // Hitung total kolom, tambahkan "Aksi" kalau ada tombol edit/delete
     final totalColumns = List<ColumnConfig>.from(columns);
     if (onEdit != null || onDelete != null) {
+
       totalColumns.add(ColumnConfig(key: "__actions", label: "Aksi"));
     }
 

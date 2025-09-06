@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:flutter/rendering.dart';
 
 import './providers/user.dart';
 import './providers/sidebar.dart';
@@ -13,6 +14,8 @@ import "./screens/auth/login.dart";
 
 void main() async {
   await dotenv.load(fileName: ".env");
+
+  debugPaintSizeEnabled = false;
 
   String? token = "";
   

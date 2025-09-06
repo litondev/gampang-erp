@@ -61,7 +61,6 @@ class LoginScreenState extends State<LoginScreen>{
       style : TextStyle(
         fontSize: 12
       ),
-      obscureText: true,
       decoration: InputDecoration(
         labelText: "Username",
         labelStyle : TextStyle(
