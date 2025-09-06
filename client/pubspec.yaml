@@ -46,6 +46,7 @@ dependencies:
   printing: ^5.14.2
   blue_thermal_printer: ^1.2.3
   file_picker: ^10.3.2
+  localstorage: ^5.0.0
 
 
 dev_dependencies:

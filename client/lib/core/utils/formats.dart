@@ -23,6 +23,8 @@ class UtilFormats {
       print("Error : $body['message']");
     }else if(response.statusCode == 422){
       print("Error : $body['message']");
+    }else if(response.statusCode == 401){
+      print("Error : $body['message']");
     }else{
       print("Terjadi Kesalahan");
     }
@@ -32,11 +34,21 @@ class UtilFormats {
     final body = json.decode(response.body);
 
     if(response.statusCode == 500){
-      SnackBars.openError(context,body['message'] ?? 'Terjadi Kesalahan');
+      formatPrintErrorHttp(response);
+
+      UtilSnackBars.openError(context,body['message'] ?? 'Terjadi Kesalahan');
     }else if(response.statusCode == 422){
-      SnackBars.openError(context,body['message'] ?? 'Terjadi Kesalahan');
+      formatPrintErrorHttp(response);
+      
+      UtilSnackBars.openError(context,body['message'] ?? 'Terjadi Kesalahan');
+    }else if(response.statusCode == 401){
+      formatPrintErrorHttp(response);
+      
+      UtilSnackBars.openError(context,body['message'] ?? 'Terjadi Kesalahan');
     }else{
-      SnackBars.openError(context,"Terjadi Kesalahan");
+      formatPrintErrorHttp(response);
+
+      UtilSnackBars.openError(context,"Terjadi Kesalahan");
     }
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/sidebar.dart';
+
 import '../core/widgets/table_responsive.dart';
 
 class TablePage extends StatelessWidget {

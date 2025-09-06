@@ -20,6 +20,7 @@ class UserProvider extends ChangeNotifier{
 
   setIsLogin(isLogin){
     _isLogin = isLogin;
+    
     notifyListeners();
   }
 

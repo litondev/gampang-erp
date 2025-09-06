@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
 
 import '../../../providers/user.dart';
 import "../../../core/widgets/spinner.dart";
 import  "../../../models/user.dart";
 import "../../../services/me.dart";
 import "../../../configs/colors.dart";
+import '../../../configs/storage.dart';
+import '../../../configs/platform.dart';
+import '../../../core/utils/formats.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({Key? key}) : super(key: key);
@@ -55,11 +58,22 @@ class LoginScreenState extends State<LoginScreen>{
 
   Widget UsernameField(){
     return TextFormField(
+      style : TextStyle(
+        fontSize: 12
+      ),
+      obscureText: true,
       decoration: InputDecoration(
         labelText: "Username",
         labelStyle : TextStyle(
-          fontSize: 10
-        )
+          fontSize: 12
+        ),
+        floatingLabelStyle : TextStyle(
+          fontSize: 12
+        ),
+        errorStyle: TextStyle(
+          color: Colors.red,       
+          fontSize: 12,          
+        ),
       ),
       validator: (value) {        
         if(value!.isEmpty){
@@ -77,22 +91,21 @@ class LoginScreenState extends State<LoginScreen>{
   Widget PasswordField(){
     return TextFormField(
       style : TextStyle(
-        fontSize: 10 
+        fontSize: 12
       ),
       obscureText: true,
       decoration: InputDecoration(
         labelText: "Password",
         labelStyle : TextStyle(
-          fontSize: 10
+          fontSize: 12
         ),
         floatingLabelStyle : TextStyle(
-          fontSize: 8
-        ),errorStyle: TextStyle(
-      color: Colors.red,       // warna font error
-      fontSize: 14,            // ukuran font
-      fontWeight: FontWeight.bold, // tebal
-      fontStyle: FontStyle.italic, // miring
-    ),
+          fontSize: 12
+        ),
+        errorStyle: TextStyle(
+          color: Colors.red,       
+          fontSize: 12,          
+        ),
       ),
       validator: (value){
         if(value!.isEmpty){
@@ -115,13 +128,13 @@ class LoginScreenState extends State<LoginScreen>{
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
          foregroundColor: AppColors.textSecondary,
-        backgroundColor:  isLoadingForm == true 
+        backgroundColor: isLoadingForm == true 
           ? Colors.grey
           : AppColors.backgroundPrimary,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18), // radius sudut
+          borderRadius: BorderRadius.circular(18), 
         ),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // optional
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
       ),
       child: Center(
         child: Row(
@@ -157,38 +170,24 @@ class LoginScreenState extends State<LoginScreen>{
         var response = await http.post(
           Uri.parse(dotenv.env['API_URL']! + "/login"),
           headers : {
-             "Content-Type": "application/json"
+            "Content-Type": "application/json"
           },
           body : jsonEncode({
             "username" : username,
             "password" : password,
           })
         );    
-
-        if(response.statusCode == 404){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Url tidak ditemukan")),
-          );
-        }else if(response.statusCode == 422){
-          var message = json.decode(response.body);
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("${message["message"]}")),
-          );
-        }else if(response.statusCode == 500){
-          var message = json.decode(response.body);
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Terjadi Kesalahan")),
-          );
-        }else if(response.statusCode == 200){
+        if(response.statusCode == 200){
           var responseBody = json.decode(response.body);
 
-          final storage = const FlutterSecureStorage();
-
-          await storage.write(key: "token", value: 'Bearer ' + responseBody["token"]);
+          if(AppPlatform.getPlatform() == 'Web'){            
+            localStorage.setItem("token",'Bearer ' + responseBody["token"]);
+          }else{
+            await AppStorage.Secure.write(key: "token", value: 'Bearer ' + responseBody["token"]);
+          }
 
           final userService = MeService();
+
           final user = await userService.getMe();
 
           Provider.of<UserProvider>(context,listen: false).setUser(ModelUser(
@@ -198,12 +197,8 @@ class LoginScreenState extends State<LoginScreen>{
           ));
 
           Provider.of<UserProvider>(context,listen: false).setIsLogin(true);        
-        }else{
-          print(response.statusCode);
-        
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Terjadi Kesalahan")),
-          );
+        }else{        
+          UtilFormats.formatErrorHttp(response,context);
         }
     }catch(e,stackTrace){
       print("Error : $e");

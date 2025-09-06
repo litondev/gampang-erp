@@ -2,8 +2,9 @@ import 'package:GampangErp/core/widgets/sidebar_responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import "../../configs/dimension.dart";
+import "../../configs/text_styles.dart";
 import '../../providers/user.dart';
-import "../../core/widgets/sidebar_responsive.dart";
 import "widgets/form.dart";
 import "widgets/logo.dart";
 
@@ -23,25 +24,22 @@ class Login extends StatelessWidget{
       home: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
-            // cek lebar layar
-            bool isMobile = constraints.maxWidth < 600; 
+            bool isMobile = AppDimension.platformType(context) == 'Mobile';
 
             Widget content = Column(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min, 
               children: [
                 Text(
-                  "Halo dunia!",
+                  "Gampang Erp",
                   style: TextStyle(
-                    fontSize: 24,          // ukuran font
-                    fontWeight: FontWeight.bold, // tebal
-                    color: Colors.black,    // warna teks
+                    fontSize: AppTextStyles.heading2.fontSize,          
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,    
                   )
                 ),
                 SizedBox(height: 40),
                 LogoWidget(),
-                SizedBox(height: 20),
+                SizedBox(height: 30),
                 LoginScreen(),
               ],
             );
@@ -49,18 +47,18 @@ class Login extends StatelessWidget{
             return Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white, // background
-                  borderRadius: BorderRadius.circular(16), // rounded edge
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2), // warna shadow
-                      blurRadius: 10, // seberapa blur
-                      offset: Offset(0, 5), // posisi bayangan (x, y)
+                  color: Colors.white, 
+                  borderRadius: !isMobile ? BorderRadius.circular(16) : null, 
+                  boxShadow: !isMobile ? [
+                     BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 5, 
+                      offset: Offset(0, 5), 
                     ),
-                  ],
+                  ] : [],
                 ),
-                width: isMobile ? double.infinity : 400, // full kalau mobile, kotak 400px kalau web
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                width: isMobile ? double.infinity : 400,
+                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                 child: content,
               ),
             );

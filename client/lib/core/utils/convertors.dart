@@ -7,14 +7,15 @@ class UtilConvertors{
             case '1':
             case 'yes':
             case 'on':
-            return true;
+              return true;
             case 'false':
             case '0':
             case 'no':
             case 'off':
-            return false;
+            case '':
+              return false;
             default:
-            return false; // fallback jika string tidak dikenali
+              return true; // fallback jika string tidak dikenali
         }
     }
 }

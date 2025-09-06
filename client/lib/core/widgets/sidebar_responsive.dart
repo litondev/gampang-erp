@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:localstorage/localstorage.dart';
 
-import '../../providers/user.dart';
 import '../../screens/dashboard.dart';
 import '../../screens/profil.dart';
 import '../../screens/table.dart';
 import '../../providers/sidebar.dart';
+import '../../providers/user.dart';
+import '../../configs/storage.dart';
+import '../../configs/platform.dart';
+
 
 class SidebarResponsive extends StatefulWidget {
   const SidebarResponsive({super.key});
@@ -34,13 +37,12 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Ambil isLogin dari UserProvider
     isLogin = Provider.of<UserProvider>(context, listen: true).getIsLogin();
   }
 
   @override
   Widget build(BuildContext context) {
-    final menuProvider = Provider.of<SelectedMenuProvider>(context);
+    final menuProvider = Provider.of<SidebarProvider>(context);
 
     final width = MediaQuery.of(context).size.width;
 
@@ -127,13 +129,15 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                         PopupMenuButton<String>(
                           icon: const Icon(Icons.account_circle),
                           onSelected: (value) async {
-                            if (value == 'logout') {
-                               final storage = const FlutterSecureStorage();
-  
-                              await storage.delete(key: "token");
+                            if (value == 'logout') { 
+                              if(AppPlatform.getPlatform() == 'Web'){  
+                                localStorage.removeItem("token");         
+                              }else{
+                                await AppStorage.Secure.delete(key: "token");
+                              }
 
                               Provider.of<UserProvider>(context,listen : false).setIsLogin(false);
-                              
+
                               Navigator.of(context).pushReplacementNamed("/");        
                             }
                           },
@@ -237,11 +241,11 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
             itemBuilder: (context, index) {
               final menu = menuItems[index];
               
-              final isSelected = Provider.of<SelectedMenuProvider>(context).menu == menu['key'];
+              final isSelected = Provider.of<SidebarProvider>(context).menu == menu['key'];
               return InkWell(
                 onTap: () {
                   setState(() {
-                     Provider.of<SelectedMenuProvider>(context, listen: false)
+                     Provider.of<SidebarProvider>(context, listen: false)
                         .selectMenu(menu['key']!);
 
 
@@ -287,7 +291,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
   }
 
   Widget _buildContent() {
-    switch (Provider.of<SelectedMenuProvider>(context).menu) {
+    switch (Provider.of<SidebarProvider>(context).menu) {
       case 'dashboard':
         return Dashboard();
       case 'profil':
