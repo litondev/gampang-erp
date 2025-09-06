@@ -7,34 +7,65 @@ class TablePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rows = [
-      {"id": 1, "nama": "Andi", "usia": 25},
-      {"id": 2, "nama": "Budi", "usia": 30},
-      {"id": 3, "nama": "Citra", "usia": 28},
-    ];
+  final List<Map<String, dynamic>> rows = List.generate(20, (index) {
+      return {
+        "id": index + 1,
+        "nama": "User ${index + 1}",
+        "usia": 20 + (index % 30), // usia acak antara 20–49
+      };
+    });
 
     final columns = [
       ColumnConfig(key: "id", label: "ID"),
       ColumnConfig(key: "nama", label: "Nama"),
       ColumnConfig(key: "usia", label: "Usia"),
+
     ];
 
     return Scaffold(
       backgroundColor: Colors.transparent, 
       appBar: AppBar(title: const Text("Responsive Table")),
-      body: ResponsiveTable(
+      body:  ResponsiveTable(
         rows: rows,
         columns: columns,
-        onEdit: (row) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Edit ${row['nama']}")),
-          );
-        },
-        onDelete: (row) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("${row['nama']} dihapus")),
-          );
-        },
+        actions: (row, context) => [
+          PopupMenuButton<int>(
+            icon: Icon(Icons.more_vert), 
+            onSelected: (value) {
+              if (value == 1) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Edit ${row['nama']}")),
+                );
+              } else if (value == 2) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Delete ${row['nama']}")),
+                );
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: [
+                    Icon(Icons.edit, color: Colors.blue),
+                    SizedBox(width: 8),
+                    Text("Edit"),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: Row(
+                  children: [
+                    Icon(Icons.delete, color: Colors.red),
+                    SizedBox(width: 8),
+                    Text("Delete"),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

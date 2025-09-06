@@ -1,106 +1,105 @@
 import 'package:flutter/material.dart';
+import "../../configs/dimension.dart";
 
 class ResponsiveTable extends StatelessWidget {
   final List<Map<String, dynamic>> rows;
   final List<ColumnConfig> columns;
-  final void Function(Map<String, dynamic> row)? onDelete;
-  final void Function(Map<String, dynamic> row)? onEdit;
+  final List<Widget> Function(Map<String, dynamic>, BuildContext) actions;
 
   const ResponsiveTable({
     super.key,
     required this.rows,
     required this.columns,
-    this.onDelete,
-    this.onEdit,
+    required this.actions,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final bool isMobile = width < 600;
+  Widget build(BuildContext context) {    
+    final totalColumns = List<ColumnConfig>.from(columns);
+
+    totalColumns.add(ColumnConfig(key: "__actions", label: "Aksi"));
+
+    bool isMobile = AppDimension.platformType(context) == 'Mobile';
 
     if (isMobile) {
-      return ListView.builder(
-        itemCount: rows.length,
-        itemBuilder: (context, index) {
-          final row = rows[index];
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            child: ListTile(
-              title: Text(row[columns[0].key].toString()),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: columns.skip(1).map((col) {
-                  return Text("${col.label}: ${row[col.key] ?? '-'}");
-                }).toList(),
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (onEdit != null)
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () => onEdit!(row),
+      return Column(
+        children: [    
+          // FILTER 
+               
+          Expanded(
+            child: ListView.builder(
+              itemCount: rows.length,
+              itemBuilder: (context, index) {
+                final row = rows[index];
+
+                return Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  child: ListTile(      
+                    title: Text(row["nama"] ?? "-",
+                    style: const TextStyle(fontSize: 12)),
+
+                    subtitle: Text("Usia : ${row["usia"] ?? '-'}",
+                    style: const TextStyle(fontSize: 10)),
+                    
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: actions(row, context),
                     ),
-                  if (onDelete != null)
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => onDelete!(row),
-                    ),
-                ],
-              ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+
+          // INFINITY SCROLL
+        ],
       );
     }
 
-    final totalColumns = List<ColumnConfig>.from(columns);
-    if (onEdit != null || onDelete != null) {
+    return SizedBox(
+      width: double.infinity, 
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical, 
+        child : Column(
+          children: [ 
+            // FILTER
 
-      totalColumns.add(ColumnConfig(key: "__actions", label: "Aksi"));
-    }
+            Row(
+              children : [
+                Expanded(
+                  child : DataTable(
+                    columns: totalColumns
+                        .map((col) => DataColumn(
+                          label: Text(
+                            col.label,
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                        ))
+                        .toList(),
+                    rows: rows.map((row) {
+                      final cells = columns.map((col) {
+                        return DataCell(Text(row[col.key]?.toString() ?? "-"));
+                      }).toList();
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columns: totalColumns
-            .map((col) => DataColumn(
-                  label: Text(col.label, style: const TextStyle(fontSize: 13)),
-                ))
-            .toList(),
-        rows: rows.map((row) {
-          final cells = columns.map((col) {
-            return DataCell(Text(row[col.key]?.toString() ?? "-"));
-          }).toList();
+                      cells.add(
+                        DataCell(
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: actions(row, context),
+                          ),
+                        ),
+                      );
+                      return DataRow(cells: cells);
+                    }).toList(),
+                  )
+                )
+              ]
+            )
 
-          // Tambahkan cell aksi jika perlu
-          if (onEdit != null || onDelete != null) {
-            cells.add(
-              DataCell(Row(
-                children: [
-                  if (onEdit != null)
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () => onEdit!(row),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                    ),
-                  if (onDelete != null)
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => onDelete!(row),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                    ),
-                ],
-              )),
-            );
-          }
-
-          return DataRow(cells: cells);
-        }).toList(),
-      ),
+            // PAGINATION
+          ]
+        )
+      )
     );
   }
 }

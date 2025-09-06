@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'dart:io' show Platform;
 
 class AppPlatform {
-  /// Return platform sebagai string
   static String getPlatform() {
     if (kIsWeb) return "Web";
     if (Platform.isAndroid) return "Android";
@@ -13,7 +12,6 @@ class AppPlatform {
     return "Unknown";
   }
 
-  /// Helper boolean
   static bool get isWeb => kIsWeb;
   static bool get isAndroid => !kIsWeb && Platform.isAndroid;
   static bool get isIOS => !kIsWeb && Platform.isIOS;

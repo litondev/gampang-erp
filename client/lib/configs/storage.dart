@@ -5,11 +5,9 @@ class AppStorage{
       aOptions: AndroidOptions(
       encryptedSharedPreferences: true,
     ),
-    // iOS options
     iOptions: IOSOptions(
       accessibility: KeychainAccessibility.first_unlock,
     ),
-    // Web options → PENTING supaya persisten
     webOptions: WebOptions(
       dbName : 'flutter_encrypted_storage',
     ),
