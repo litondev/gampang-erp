@@ -30,6 +30,32 @@ func SetupRoutes(app *fiber.App, db *gorm.DB, debug string) {
 
 	api.Post("/login", auth.Login)
 
+	// api.Get("/get-setting");
+	// api.Get("/get-user");
+	// api.Get("/get-customer");
+	// api.Get("/get-supplier");
+	// api.Get("/get-customer-group");
+	// api.Get("/get-all-customer-group");
+	// api.Get("/get-seller");
+	// api.Get("/get-area");
+	// api.Get("/get-item");
+	// api.Get("/get-item-pc");
+	// api.Get("/get-item-identity")
+	// api.Get("/get-item-price");
+	// api.Get("/get-item-catgorey");
+	// api.Get("/get-production-division");
+	// api.Get("/get-chart-of-account");
+	// api.Get("/get-all-chart-of-account");
+	// api.Get("/get-qrcode");
+	// api.Get("/get-barcode");
+	// api.Get("/get-warehouse");
+	// api.Get("/show-supplier");
+	// api.Get("/show-customer");
+	// api.Get("/show-user");
+	// api.Get("/show-warehouse");
+	// api.Get("/get-promotion");
+	// api.Get("/get-promotion-item");
+
 	// JWT MIDDLEWARE
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte("secret"),
@@ -41,4 +67,14 @@ func SetupRoutes(app *fiber.App, db *gorm.DB, debug string) {
 	}))
 
 	setupAuth(api)
+	// setupFinance(api)
+	// setupMarketing(api)
+	// setupMaster(api)
+	// setupProfil(api)
+	// setupReport(api)
+	// setupSellingModule(api)
+	// setupPurchaseingModule(api)
+	// setupSetting(api)
+	// setupInventory(api)
+
 }
