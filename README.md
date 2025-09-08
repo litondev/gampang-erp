@@ -9,3 +9,6 @@ Golang
 
 Mysql
     10.4.28-MariaDB
+
+Goal Platform
+    Mobile,Website And Desktop

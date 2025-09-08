@@ -11,6 +11,7 @@ import '../models/user.dart';
 class MeService {
   Future<ModelUser?> getMe() async {
     try {
+      // TAMBAH SCRIPT
       final storage = const FlutterSecureStorage();
 
       String? token = await storage.read(key: "token");

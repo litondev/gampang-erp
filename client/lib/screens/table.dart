@@ -11,7 +11,7 @@ class TablePage extends StatelessWidget {
       return {
         "id": index + 1,
         "nama": "User ${index + 1}",
-        "usia": 20 + (index % 30), // usia acak antara 20–49
+        "usia": 20 + (index % 30), 
       };
     });
 
