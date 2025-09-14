@@ -20,14 +20,17 @@ func SetupRoutes(app *fiber.App, db *gorm.DB, debug string) {
 	// ASSET MIDDLEWARE
 	app.Static("/assets", "./assets")
 
+	// GROUP API
 	api := app.Group("/api")
 
+	// STATUS
 	api.Get("/status", func(c *fiber.Ctx) error {
 		return c.Status(200).JSON(fiber.Map{
 			"message": "active",
 		})
 	})
 
+	// LOGIN
 	api.Post("/login", auth.Login)
 
 	// api.Get("/get-setting");
@@ -76,5 +79,6 @@ func SetupRoutes(app *fiber.App, db *gorm.DB, debug string) {
 	// setupPurchaseingModule(api)
 	// setupSetting(api)
 	// setupInventory(api)
-
+	// setupManufactur(api)
+	// setupDepreciation(api)
 }

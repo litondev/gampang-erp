@@ -13,25 +13,62 @@ import './core/utils/convertors.dart';
 import "./screens/auth/login.dart";
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: ".env");
 
   debugPaintSizeEnabled = false;
 
   String? token = "";
   
-  if(AppPlatform.getPlatform() == 'Web'){
+  if (AppPlatform.getPlatform() == 'Web') {
     await initLocalStorage();
-
     token = localStorage.getItem("token");
-  }else{
+  } else {
     token = await AppStorage.Secure.read(key: "token");
   }
 
   final isLogin = UtilConvertors.stringToBool(token);
   
-  // BISA PANGGIL ME DISINI
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: SplashScreen(
+      isLogin: isLogin
+    ),
+  ));
+}
 
-  runApp(MyApp(isLogin));
+class SplashScreen extends StatefulWidget {
+  final bool isLogin;
+  const SplashScreen({required this.isLogin});
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // DISINI BISA MENGASKES API SEBELUM SELURUH APAP DIJALANKAN
+
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => MyApp(widget.isLogin), 
+        ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator()
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -39,21 +76,22 @@ class MyApp extends StatelessWidget {
 
   MyApp(this.isLogin);
 
-  Widget build(BuildContext context){    
+  @override
+  Widget build(BuildContext context) {    
     return MultiProvider(
-      providers : [
+      providers: [
         ChangeNotifierProvider(create: (_) => UserProvider(isLogin)),
         ChangeNotifierProvider(create: (_) => SidebarProvider()),
       ],
-      child : MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Gampang Erp',
         theme: AppThemes.lightTheme, 
         initialRoute: '/',
         routes: {
-          '/' : (context) => Login(context)
+          '/': (context) => Login(context),
         },
-      )    
+      ),    
     );
   }
-} 
+}

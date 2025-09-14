@@ -13,6 +13,7 @@ import "../../../configs/colors.dart";
 import '../../../configs/storage.dart';
 import '../../../configs/platform.dart';
 import '../../../core/utils/formats.dart';
+import '../../../core/utils/validators.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({Key? key}) : super(key: key);
@@ -75,8 +76,10 @@ class LoginScreenState extends State<LoginScreen>{
         ),
       ),
       validator: (value) {        
-        if(value!.isEmpty){
-          return "Username tidak boleh kosong";
+        String? message = UtilValidators.required(value,fieldName : "Username");
+
+        if(message != null){
+          return message;
         }
 
         return null;
@@ -107,12 +110,18 @@ class LoginScreenState extends State<LoginScreen>{
         ),
       ),
       validator: (value){
-        if(value!.isEmpty){
-          return "Password tidak boleh kosong";
+        String fieldName = "Password";
+
+        String? message = UtilValidators.required(value,fieldName : fieldName);
+
+        if(message != null){
+          return message;
         }
 
-        if(value.length <= 7){
-          return "Password tidak boleh kurang dari 8";
+        message = UtilValidators.minLength(value,8,fieldName : fieldName);
+
+        if(message != null){
+          return message;
         }
 
         return null;
@@ -126,7 +135,7 @@ class LoginScreenState extends State<LoginScreen>{
   Widget LoginButton(){
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-         foregroundColor: AppColors.textSecondary,
+        foregroundColor: AppColors.textSecondary,
         backgroundColor: isLoadingForm == true 
           ? Colors.grey
           : AppColors.backgroundPrimary,
@@ -176,6 +185,7 @@ class LoginScreenState extends State<LoginScreen>{
             "password" : password,
           })
         );    
+        
         if(response.statusCode == 200){
           var responseBody = json.decode(response.body);
 
@@ -201,6 +211,7 @@ class LoginScreenState extends State<LoginScreen>{
         }
     }catch(e,stackTrace){
       print("Error : $e");
+
       debugPrintStack(stackTrace: stackTrace);
     } finally {
       setState(() {    

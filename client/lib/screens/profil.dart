@@ -8,8 +8,7 @@ class Profil extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Provider.of<SidebarProvider>(context, listen: false)
-          .selectMenu('dashboard');
+        Provider.of<SidebarProvider>(context, listen: false).selectMenu('dashboard');
       },
       child: Text("Kembali ke Dashboard"),
     );

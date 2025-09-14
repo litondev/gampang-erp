@@ -6,3 +6,7 @@ type User struct {
 	Username *string
 	Password *string
 }
+
+// UserWith
+// UserProfil
+// UserModel

@@ -7,6 +7,7 @@ class SidebarProvider with ChangeNotifier {
 
   void selectMenu(String menu) {
     _menu = menu;
+    
     notifyListeners();
   }
 }

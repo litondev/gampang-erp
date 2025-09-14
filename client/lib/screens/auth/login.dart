@@ -26,25 +26,6 @@ class Login extends StatelessWidget{
           builder: (context, constraints) {
             bool isMobile = AppDimension.platformType(context) == 'Mobile';
 
-            Widget content = Column(
-              mainAxisSize: MainAxisSize.min, 
-              children: [
-                Text(
-                  "Gampang Erp",
-                  style: TextStyle(
-                    fontSize: AppTextStyles.heading2.fontSize,          
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,    
-                  )
-                ),
-                SizedBox(height: 40),
-                LogoWidget(),
-                SizedBox(height: 30),
-                LoginScreen(),
-              ],
-            );
-
-            // HARUS NYA DIPSISAH SECARA KESLURUHAN BIAR MOBIL DAN DESKTOP TIDAK BERCAMPUR
             return Center(
               child: Container(
                 decoration: BoxDecoration(
@@ -60,7 +41,15 @@ class Login extends StatelessWidget{
                 ),
                 width: isMobile ? double.infinity : 400,
                 padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                child: content,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, 
+                  children: [
+                    SizedBox(height: 40),
+                    LogoWidget(),
+                    SizedBox(height: 30),
+                    LoginScreen(),
+                  ],
+                ),
               ),
             );
           },

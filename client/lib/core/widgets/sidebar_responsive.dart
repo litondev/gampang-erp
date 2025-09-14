@@ -27,6 +27,44 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
     {'icon': Icons.logout, 'title': 'Logout', 'key': 'logout'},
   ];
 
+  Widget buildNotificationMenu(BuildContext context){
+    return  PopupMenuButton<String>(
+      icon: const Icon(Icons.notifications),
+      onSelected: (value) {
+        print(value);
+      },
+      itemBuilder: (context) => const [
+        PopupMenuItem(value: 'new_msg', child: Text("New Message")),
+        PopupMenuItem(value: 'updates', child: Text("System Updates")),
+        PopupMenuItem(value: 'reminders', child: Text("Reminders")),
+      ],
+    );
+  }
+
+  Widget buildProfilMenu(BuildContext context) {
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.account_circle),
+      onSelected: (value) async {
+        if (value == 'logout') {
+          if (AppPlatform.getPlatform() == 'Web') {
+            localStorage.removeItem("token");
+          } else {
+            await AppStorage.Secure.delete(key: "token");
+          }
+
+          Provider.of<UserProvider>(context, listen: false).setIsLogin(false);
+
+          Navigator.of(context).pushReplacementNamed("/");
+        }
+      },
+      itemBuilder: (context) => const [
+        PopupMenuItem(value: 'profile', child: Text("View Profile")),
+        PopupMenuItem(value: 'settings', child: Text("Account Settings")),
+        PopupMenuItem(value: 'logout', child: Text("Logout")),
+      ],
+    );
+  }
+
   void toggleSidebar(){
     setState(() {
       isSidebarCollapsed = !isSidebarCollapsed;
@@ -58,38 +96,9 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                 ),
               ),
               actions: [
-                PopupMenuButton<String>(
-                  icon: const Icon(Icons.notifications),
-                  onSelected: (value) {
-                    print(value);
-                  },
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(value: 'new_msg', child: Text("New Message")),
-                    PopupMenuItem(value: 'updates', child: Text("System Updates")),
-                    PopupMenuItem(value: 'reminders', child: Text("Reminders")),
-                  ],
-                ),
-                PopupMenuButton<String>(
-                  icon: const Icon(Icons.account_circle),
-                  onSelected: (value) async {
-                    if (value == 'logout') { 
-                      if(AppPlatform.getPlatform() == 'Web'){  
-                        localStorage.removeItem("token");         
-                      }else{
-                        await AppStorage.Secure.delete(key: "token");
-                      }
+                buildNotificationMenu(context),
 
-                      Provider.of<UserProvider>(context,listen : false).setIsLogin(false);
-
-                      Navigator.of(context).pushReplacementNamed("/");        
-                    }
-                  },
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(value: 'profile', child: Text("View Profile")),
-                    PopupMenuItem(value: 'settings', child: Text("Account Settings")),
-                    PopupMenuItem(value: 'logout', child: Text("Logout")),
-                  ],
-                ),
+                buildProfilMenu(context)              
               ],
             )
           : null,
@@ -133,39 +142,12 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
+
                         const Spacer(),
-                        PopupMenuButton<String>(
-                          icon: const Icon(Icons.notifications),
-                          onSelected: (value) {
-                            print(value);
-                          },
-                          itemBuilder: (context) => const [
-                            PopupMenuItem(value: 'new_msg', child: Text("New Message")),
-                            PopupMenuItem(value: 'updates', child: Text("System Updates")),
-                            PopupMenuItem(value: 'reminders', child: Text("Reminders")),
-                          ],
-                        ),
-                        PopupMenuButton<String>(
-                          icon: const Icon(Icons.account_circle),
-                          onSelected: (value) async {
-                            if (value == 'logout') { 
-                              if(AppPlatform.getPlatform() == 'Web'){  
-                                localStorage.removeItem("token");         
-                              }else{
-                                await AppStorage.Secure.delete(key: "token");
-                              }
 
-                              Provider.of<UserProvider>(context,listen : false).setIsLogin(false);
+                        buildNotificationMenu(context),
 
-                              Navigator.of(context).pushReplacementNamed("/");        
-                            }
-                          },
-                          itemBuilder: (context) => const [
-                            PopupMenuItem(value: 'profile', child: Text("View Profile")),
-                            PopupMenuItem(value: 'settings', child: Text("Account Settings")),
-                            PopupMenuItem(value: 'logout', child: Text("Logout")),
-                          ],
-                        ),
+                        buildProfilMenu(context)              
                       ],
                     ),
                   ),
@@ -233,7 +215,6 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
         SizedBox(
           height: 60,
           child: Row(
-            // HARUS NYA DIPSISAH SECARA KESLURUHAN BIAR MOBIL DAN DESKTOP TIDAK BERCAMPUR
             children: [
               const SizedBox(width: 12),
 
@@ -268,7 +249,10 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
 
               const Spacer(),
               
-              if (!isSidebarCollapsed && !isMobile)
+              if (
+                !isSidebarCollapsed && 
+                !isMobile
+              )
                 IconButton(
                     icon: Icon(
                       isSidebarCollapsed ? Icons.arrow_forward_ios : Icons.arrow_back_ios,

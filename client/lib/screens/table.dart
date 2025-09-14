@@ -2,32 +2,52 @@ import 'package:flutter/material.dart';
 
 import '../core/widgets/table_responsive.dart';
 
-class TablePage extends StatelessWidget {
+class TablePage extends StatefulWidget {
   const TablePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  _TablePageState createState() => _TablePageState();
+}
+
+class _TablePageState extends State<TablePage> {
+
   final List<Map<String, dynamic>> rows = List.generate(20, (index) {
-      return {
-        "id": index + 1,
-        "nama": "User ${index + 1}",
-        "usia": 20 + (index % 30), 
-      };
+    return {
+      "id": index + 1,
+      "nama": "User ${index + 1}",
+      "usia": 20 + (index % 30), 
+    };
+  });
+
+  final columns = [
+    ColumnConfig(key: "id", label: "ID"),
+    ColumnConfig(key: "nama", label: "Nama"),
+    ColumnConfig(key: "usia", label: "Usia"),
+  ];
+
+  String query = "";
+
+  void applyFilter(String value) {
+    setState(() {
+      query = value;
     });
+  }
 
-    final columns = [
-      ColumnConfig(key: "id", label: "ID"),
-      ColumnConfig(key: "nama", label: "Nama"),
-      ColumnConfig(key: "usia", label: "Usia"),
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
-    ];
-
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent, 
       appBar: AppBar(title: const Text("Responsive Table")),
       body:  ResponsiveTable(
         rows: rows,
         columns: columns,
+        onFilter: applyFilter,
+        query : query,
         actions: (row, context) => [
           PopupMenuButton<int>(
             icon: Icon(Icons.more_vert), 
@@ -42,6 +62,7 @@ class TablePage extends StatelessWidget {
                 );
               }
             },
+            
             itemBuilder: (context) => [
               PopupMenuItem(
                 value: 1,

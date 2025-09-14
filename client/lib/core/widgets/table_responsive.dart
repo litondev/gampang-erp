@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+
 import "../../configs/dimension.dart";
+import "info_card_widget.dart";
 
 class ResponsiveTable extends StatelessWidget {
   final List<Map<String, dynamic>> rows;
   final List<ColumnConfig> columns;
   final List<Widget> Function(Map<String, dynamic>, BuildContext) actions;
 
+  final Function(String) onFilter;
+  final String query;
+
   const ResponsiveTable({
     super.key,
     required this.rows,
     required this.columns,
     required this.actions,
+    required this.onFilter,
+    required this.query
   });
+
 
   @override
   Widget build(BuildContext context) {    
@@ -24,8 +32,83 @@ class ResponsiveTable extends StatelessWidget {
     if (isMobile) {
       return Column(
         children: [    
+          // QUERY
+          Text(query),
+
+          // WIDGET 
+          Row(
+            children: [
+              Expanded(child: InfoCardWidget(icon: Icons.inventory, title: "Jumlah", value: "5")),
+              Expanded(child: InfoCardWidget(icon: Icons.shopping_cart, title: "Harga Beli", value: "10000")),
+              Expanded(child: InfoCardWidget(icon: Icons.sell, title: "Harga Jual", value: "12000")),
+              Expanded(child: InfoCardWidget(icon: Icons.widgets, title: "Total Barang", value: "60000")),
+            ],
+          ),
+
           // FILTER 
-               
+          Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  // 🔍 Search Input
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.search, color: Colors.blue),
+                        labelText: "Search",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+
+                  // 📦 Select Item (Dropdown)
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.list, color: Colors.green),
+                        labelText: "Select Item",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      items: const [
+                        DropdownMenuItem(value: "item1", child: Text("Item 1")),
+                        DropdownMenuItem(value: "item2", child: Text("Item 2")),
+                        DropdownMenuItem(value: "item3", child: Text("Item 3")),
+                      ],
+                      onChanged: (value) {
+                        if(value != null){
+                          onFilter(value);
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+
+                  // 📝 Input biasa
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.edit, color: Colors.orange),
+                        labelText: "Input",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        
+          // TABLE
           Expanded(
             child: ListView.builder(
               itemCount: rows.length,
@@ -62,8 +145,83 @@ class ResponsiveTable extends StatelessWidget {
         scrollDirection: Axis.vertical, 
         child : Column(
           children: [ 
-            // FILTER
+            // QUERY
+            Text(query),
 
+            // WIDGET 
+            Row(
+              children: [
+                Expanded(child: InfoCardWidget(icon: Icons.inventory, title: "Jumlah", value: "5")),
+                Expanded(child: InfoCardWidget(icon: Icons.shopping_cart, title: "Harga Beli", value: "10000")),
+                Expanded(child: InfoCardWidget(icon: Icons.sell, title: "Harga Jual", value: "12000")),
+                Expanded(child: InfoCardWidget(icon: Icons.widgets, title: "Total Barang", value: "60000")),
+              ],
+            ),
+
+            // FILTER
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    // 🔍 Search Input
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.search, color: Colors.blue),
+                          labelText: "Search",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+
+                    // 📦 Select Item (Dropdown)
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.list, color: Colors.green),
+                          labelText: "Select Item",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        items: const [
+                          DropdownMenuItem(value: "item1", child: Text("Item 1")),
+                          DropdownMenuItem(value: "item2", child: Text("Item 2")),
+                          DropdownMenuItem(value: "item3", child: Text("Item 3")),
+                        ],
+                        onChanged: (value) {
+                          if(value != null){
+                            onFilter(value);
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+
+                    // 📝 Input biasa
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.edit, color: Colors.orange),
+                          labelText: "Input",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // TABLE
             Row(
               children : [
                 Expanded(
@@ -94,9 +252,41 @@ class ResponsiveTable extends StatelessWidget {
                   )
                 )
               ]
-            )
+            ),
 
             // PAGINATION
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Prev button
+                ElevatedButton(
+                  onPressed: () => {},
+                  child: Text("Prev"),
+                ),
+                SizedBox(width: 20),
+
+                // Input page
+                SizedBox(
+                  width: 100,
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    onSubmitted: (value) {
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20),
+
+                // Next button
+                ElevatedButton(
+                  onPressed: () => {},
+                  child: Text("Next"),
+                ),
+              ],
+            )
           ]
         )
       )

@@ -5,7 +5,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
-// CorsMiddleware mengembalikan middleware CORS
 func CorsMiddleware() fiber.Handler {
 	return cors.New(cors.Config{
 		AllowOrigins:     "*",
