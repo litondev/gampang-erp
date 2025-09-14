@@ -143,7 +143,8 @@ class ResponsiveTable extends StatelessWidget {
       width: double.infinity, 
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical, 
-        child : Column(
+        child : 
+        Column(
           children: [ 
             // QUERY
             Text(query),

@@ -154,7 +154,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                 Expanded(
                   child: Container(
                     color : Colors.white,
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(5),
                     width: double.infinity, 
                     child: _buildContent(),
                   ),
@@ -215,6 +215,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
         SizedBox(
           height: 60,
           child: Row(
+            // HARUS NYA DIPSISAH SECARA KESLURUHAN BIAR MOBIL DAN DESKTOP TIDAK BERCAMPUR
             children: [
               const SizedBox(width: 12),
 
