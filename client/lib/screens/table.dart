@@ -40,7 +40,21 @@ class _TablePageState extends State<TablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Responsive Table")),
+      // ALAT BANTU
+       // TAMPILKAN / SEMBUNYIKAN WIDGET/FILTER
+       // TAMPILKAN / SEMBUNYIKNA KOLOM
       body:  ResponsiveTable( 
+        /*
+          KONSEP RESPONSIVE TABLE DIA MAMPUNG TEMPLATE UMUM WIDGET YANG DIGUNKAN PADA SCREEN INDEX TRANSAKSI DENGAN FITUR
+          - WIDGET
+          - FILTER
+          - TABLE 
+          - PAGINATION
+          SEDANGKAN SCREEN BERFUNGSI MENGAMBIL DATA DARI SERVICE LALU DIMASUKAN KE TABLE REPONSIVE 
+          TETAPI TIDAK SEMUA SCREEN MENGUNKAN KONSEP REPONSIVE TABLE DAN HANYA UNTUK INDEX UNTUK FORM 
+          YANG MENGUNAKAN TABLE DISARANKAN CUSTOM KARNEA PERBEDAAN INPUTAN YANG SANGAT KOMPLEKS
+        */
+
         // WIDGET 
 
         // FILTER 

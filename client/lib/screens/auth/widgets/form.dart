@@ -26,6 +26,14 @@ class LoginScreenState extends State<LoginScreen>{
   String username = '';
   String password = '';
   bool isLoadingForm = false;
+  UserProvider? userProvider;
+
+  @override
+  void initState() {
+    super.initState();
+
+    userProvider = Provider.of<UserProvider>(context,listen: false);
+  }
 
   @override 
   void dispose(){    
@@ -197,9 +205,7 @@ class LoginScreenState extends State<LoginScreen>{
 
           final user = await userService.getMe();
 
-          Provider
-            .of<UserProvider>(context,listen: false)
-            .setUser(
+          userProvider?.setUser(
               ModelUser(
                 id : user?.id,
                 username : user?.username,
@@ -207,9 +213,7 @@ class LoginScreenState extends State<LoginScreen>{
               )
             );
 
-          Provider
-            .of<UserProvider>(context,listen: false)
-            .setIsLogin(true);        
+          userProvider?.setIsLogin(true);        
         }else{        
           UtilFormats.formatErrorHttp(response,context);
         }

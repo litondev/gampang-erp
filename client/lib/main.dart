@@ -92,9 +92,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {    
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider(themeMode)),
         ChangeNotifierProvider(create: (_) => UserProvider(isLogin)),
         ChangeNotifierProvider(create: (_) => SidebarProvider()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider(themeMode)),
       ],
       child: Builder(
         builder: (context) {
@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             initialRoute: '/',
             routes: {
-              '/': (context) => Login(context),
+              '/': (_) => Login(),
             },
           );    
         }

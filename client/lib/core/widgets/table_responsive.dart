@@ -36,6 +36,7 @@ class ResponsiveTable extends StatelessWidget {
     bool isMobile = AppDimension.platformType(context) == 'Mobile';
 
     if (isMobile) {
+      // BISA DIPISAH-PISAH KE PRIVATE FUNCTION 
       return Column(
         children: [    
           // QUERY
@@ -141,7 +142,8 @@ class ResponsiveTable extends StatelessWidget {
         ],
       );
     }
-
+    
+    // BISA DIPISAH-PISAH KE PRIVATE FUNCTION 
     return SizedBox(
       width: double.infinity, 
       child: SingleChildScrollView(

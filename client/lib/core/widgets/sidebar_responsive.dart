@@ -20,6 +20,19 @@ class SidebarResponsive extends StatefulWidget {
 }
 
 class _SidebarResponsiveState extends State<SidebarResponsive> {  
+  UserProvider? userProvider;
+  SidebarProvider? sidebarProvider;
+  ThemeProvider? themeProvider;
+
+  @override
+  void initState() {
+    super.initState();
+
+    userProvider = Provider.of<UserProvider>(context,listen: false);
+    sidebarProvider = Provider.of<SidebarProvider>(context,listen: false);
+    themeProvider = Provider.of<ThemeProvider>(context,listen: false);
+  }
+
   bool isSidebarCollapsed = false;
 
   void toggleSidebar(){
@@ -37,7 +50,6 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
 
   @override
   Widget build(BuildContext context) {
-    final menuProvider = Provider.of<SidebarProvider>(context);
     final theme = Theme.of(context);
 
     bool isDesktop = AppDimension.platformType(context) == 'Desktop';
@@ -48,7 +60,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: isMobile
           ? AppBar(
-              title: Text(menuProvider.menu[0].toUpperCase() + menuProvider.menu.substring(1)),
+              title: Text(sidebarProvider!.menu[0].toUpperCase() + sidebarProvider!.menu.substring(1)),
               backgroundColor: theme.appBarTheme.backgroundColor,
               flexibleSpace: Container(
                 decoration: const BoxDecoration(
@@ -60,9 +72,9 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                 ),
               ),
               actions: [
-                _buildNotificationMenu(context),
+                _buildNotificationMenu(),
 
-                _buildProfilMenu(context)              
+                _buildProfilMenu()              
               ],
             )
           : null,
@@ -101,7 +113,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                     child: Row(
                       children: [
                         Text(
-                          menuProvider.menu[0].toUpperCase() + menuProvider.menu.substring(1),
+                          sidebarProvider!.menu[0].toUpperCase() + sidebarProvider!.menu.substring(1),
                           style: const TextStyle(
                             fontSize: 12, fontWeight: FontWeight.bold
                           ),
@@ -109,9 +121,9 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
 
                         const Spacer(),
 
-                        _buildNotificationMenu(context),
+                        _buildNotificationMenu(),
 
-                        _buildProfilMenu(context)              
+                        _buildProfilMenu()              
                       ],
                     ),
                   ),
@@ -164,7 +176,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
     );
   }
 
-  Widget _buildNotificationMenu(BuildContext context){
+  Widget _buildNotificationMenu(){
     return PopupMenuButton<String>(
       icon: const Icon(Icons.notifications),
       onSelected: (value) {
@@ -178,7 +190,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
     );
   }
 
-  Widget _buildProfilMenu(BuildContext context) {
+  Widget _buildProfilMenu() {
     return PopupMenuButton<String>(
       icon: const Icon(Icons.account_circle),
       onSelected: (value) async {
@@ -189,23 +201,19 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
             await AppStorage.Secure.delete(key: "token");
           }
 
-          Provider
-            .of<UserProvider>(context, listen: false)
-            .setIsLogin(false);
+          userProvider?.setIsLogin(false);
 
           Navigator
             .of(context)
             .pushReplacementNamed("/");
         }else if (value == 'toggle_theme') {
           if (AppPlatform.getPlatform() == 'Web') {
-            localStorage.setItem("theme_mode",Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "dark" : "light");
+            localStorage.setItem("theme_mode",themeProvider?.themeMode != ThemeMode.dark ? "dark" : "light");
           } else {
-            await AppStorage.Secure.write(key: "theme_mode", value: Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "dark" : "light");
+            await AppStorage.Secure.write(key: "theme_mode", value: themeProvider?.themeMode != ThemeMode.dark ? "dark" : "light");
           }
 
-          Provider
-            .of<ThemeProvider>(context,listen: false)
-            .toggleTheme();
+          themeProvider?.toggleTheme();
         }
       },
       itemBuilder: (context) => [
@@ -216,9 +224,9 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
           value: 'toggle_theme',
           child: Row(
             children: [
-              Icon(Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
+              Icon(themeProvider?.themeMode != ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
               const SizedBox(width: 8),
-              Text(Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "Light Mode" : "Dark Mode"),
+              Text(themeProvider?.themeMode != ThemeMode.dark ? "Light Mode" : "Dark Mode"),
             ],
           ),
         ),
@@ -293,21 +301,15 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
             itemBuilder: (context, index) {
               final menu = menuItems[index];
               
-              final isSelected = Provider
-                .of<SidebarProvider>(context)
-                .menu == menu['key'];
+              final isSelected = sidebarProvider?.menu == menu['key'];
 
               return InkWell(
                 onTap: () {
                   setState(() {
-                    Provider
-                      .of<SidebarProvider>(context, listen: false)
-                      .selectMenu(menu['key']!);
+                    sidebarProvider?.selectMenu(menu['key']!);
                         
                     if (Scaffold.of(context).isDrawerOpen) {
-                      Navigator
-                        .of(context)
-                        .pop();
+                      Navigator.of(context).pop();
                     }
                   });
                 },
@@ -349,7 +351,18 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
   }
 
   Widget _buildContent() {
-    switch (Provider.of<SidebarProvider>(context).menu) {
+    switch (sidebarProvider?.menu) {
+      // MASTER
+      // MARKETING
+      // FINANCE
+      // PROFIL
+      // REPORT
+      // SELLING MODULE
+      // PURCHASEING MODULE
+      // SETTING
+      // INVENTORY
+      // MANUFACTUR
+      // DEPRECIATION
       case 'dashboard':
         return Dashboard();
       case 'profil':

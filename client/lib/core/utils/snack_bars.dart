@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../configs/colors.dart';
-
 class UtilSnackBars{
   static openError(BuildContext context,String message){
     ScaffoldMessenger.of(context).clearSnackBars();

@@ -7,22 +7,17 @@ import '../../providers/user.dart';
 import "widgets/form.dart";
 import "widgets/logo.dart";
 
-class Login extends StatelessWidget{
-  bool? isLogin;
-
-  Login(BuildContext context){
-    this.isLogin = Provider.of<UserProvider>(context).getIsLogin;
-  } 
-
+class Login extends StatelessWidget{  
   Widget build(BuildContext context){
-    
+    bool isLogin = Provider.of<UserProvider>(context).getIsLogin;
+
     if(isLogin == true){
       return SidebarResponsive();
     }
 
-   final theme = Theme.of(context);
+    final theme = Theme.of(context);
 
-   return MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         body: LayoutBuilder(
