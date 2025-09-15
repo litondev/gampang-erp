@@ -39,7 +39,6 @@ class _TablePageState extends State<TablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.transparent, 
       appBar: AppBar(title: const Text("Responsive Table")),
       body:  ResponsiveTable( 
         // WIDGET 
@@ -81,7 +80,7 @@ class _TablePageState extends State<TablePage> {
                 value: 1,
                 child: Row(
                   children: [
-                    Icon(Icons.edit, color: Colors.blue),
+                    Icon(Icons.edit),
                     SizedBox(width: 8),
                     Text("Edit"),
                   ],
@@ -91,7 +90,7 @@ class _TablePageState extends State<TablePage> {
                 value: 2,
                 child: Row(
                   children: [
-                    Icon(Icons.delete, color: Colors.red),
+                    Icon(Icons.delete),
                     SizedBox(width: 8),
                     Text("Delete"),
                   ],

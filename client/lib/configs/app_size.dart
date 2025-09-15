@@ -8,5 +8,4 @@ class AppSize {
   static const double widthSidebarMobile = 70;
   static const double widthSidebarDesktop = 220;
   static const double widthSidebarTablet = 100;
-  
 }

@@ -24,7 +24,7 @@ class InfoCardWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 30, color: Colors.blueAccent),
+            Icon(icon, size: 30),
             const SizedBox(height: 5),
             Text(
               title,

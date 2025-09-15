@@ -9,7 +9,6 @@ import '../../../providers/user.dart';
 import "../../../core/widgets/spinner.dart";
 import  "../../../models/user.dart";
 import "../../../services/me.dart";
-import "../../../configs/colors.dart";
 import '../../../configs/storage.dart';
 import '../../../configs/platform.dart';
 import '../../../core/utils/formats.dart';
@@ -58,22 +57,21 @@ class LoginScreenState extends State<LoginScreen>{
 
   Widget UsernameField(){
      return SizedBox(
-        height: 8,
+        height: 10,
         child: TextFormField(
           style : TextStyle(
-            fontSize: 12
+            fontSize: 8
           ),
           decoration: InputDecoration(
             labelText: "Username",
             labelStyle : TextStyle(
-              fontSize: 12
+              fontSize: 8
             ),
             floatingLabelStyle : TextStyle(
-              fontSize: 12
+              fontSize: 8
             ),
             errorStyle: TextStyle(
-              color: Colors.red,       
-              fontSize: 12,          
+              fontSize: 8,          
             ),
           ),
           validator: (value) {        
@@ -94,23 +92,22 @@ class LoginScreenState extends State<LoginScreen>{
 
   Widget PasswordField(){
     return SizedBox(
-      height: 8, 
+      height: 10, 
       child: TextFormField(
         style : TextStyle(
-          fontSize: 12
+          fontSize: 8
         ),
         obscureText: true,
         decoration: InputDecoration(
           labelText: "Password",
           labelStyle : TextStyle(
-            fontSize: 12
+            fontSize: 8
           ),
           floatingLabelStyle : TextStyle(
-            fontSize: 12
+            fontSize: 8
           ),
           errorStyle: TextStyle(
-            color: Colors.red,       
-            fontSize: 12,          
+            fontSize: 8,          
           ),
         ),
         validator: (value){
@@ -140,9 +137,6 @@ class LoginScreenState extends State<LoginScreen>{
   Widget LoginButton(){
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: isLoadingForm == true 
-          ? Colors.grey
-          : Colors.lightBlue,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20), 
         ),
@@ -205,11 +199,13 @@ class LoginScreenState extends State<LoginScreen>{
 
           Provider
             .of<UserProvider>(context,listen: false)
-            .setUser(ModelUser(
-              id : user?.id,
-              username : user?.username,
-              fullname : user?.fullname
-            ));
+            .setUser(
+              ModelUser(
+                id : user?.id,
+                username : user?.username,
+                fullname : user?.fullname
+              )
+            );
 
           Provider
             .of<UserProvider>(context,listen: false)

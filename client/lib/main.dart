@@ -34,7 +34,7 @@ void main() async {
 
     themeMode = await AppStorage.Secure.read(key: "theme_mode");
   }
-  
+    
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -73,7 +73,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor : widget.themeMode == 'light' ? Colors.grey[100] : Color(0xFF121212),
       body: Center(
         child: CircularProgressIndicator()
       ),

@@ -9,8 +9,7 @@ class UtilSnackBars{
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: Duration(seconds: 2),
-        backgroundColor: AppColors.error,
+        duration: Duration(seconds: 2)
       ),
     );
   }
@@ -21,8 +20,7 @@ class UtilSnackBars{
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: Duration(seconds: 2),
-        backgroundColor: AppColors.success,
+        duration: Duration(seconds: 2)
       ),
     );
   }

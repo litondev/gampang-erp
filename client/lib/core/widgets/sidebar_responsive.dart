@@ -54,7 +54,6 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                 decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: Color(0xFFE0E0E0),
                       width: 0.5,          
                     ),
                   ),
@@ -77,7 +76,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
         children: [
           if (isDesktop || isTablet) 
             AnimatedContainer(
-              duration: const Duration(milliseconds: 100),
+              duration: const Duration(milliseconds: 250),
               width: isSidebarCollapsed 
                   ? 70 
                   : ( isDesktop ? 220 : (isTablet ? 100 : 70) ), 
@@ -95,7 +94,6 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                       color: theme.cardColor,
                       border: Border(
                         bottom: BorderSide(
-                          color: Colors.grey.shade300, 
                           width: 0.5, 
                         ),
                       ),
@@ -132,7 +130,6 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
       ),
       floatingActionButton: isMobile ? FloatingActionButton(
         onPressed: () {},
-        backgroundColor : Colors.pink,
         child: Icon(Icons.add, size: 30),
       ) : null,
       floatingActionButtonLocation: isMobile ? FloatingActionButtonLocation.centerDocked : null,
@@ -140,14 +137,6 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
         shape: CircularNotchedRectangle(),
         notchMargin: 8,
         child: Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: Color(0xFFE0E0E0),
-                width: 0.5,          
-              ),
-            ),
-          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -209,7 +198,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
             .pushReplacementNamed("/");
         }else if (value == 'toggle_theme') {
           if (AppPlatform.getPlatform() == 'Web') {
-            localStorage.setItem("toggle_theme",Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "dark" : "light");
+            localStorage.setItem("theme_mode",Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "dark" : "light");
           } else {
             await AppStorage.Secure.write(key: "theme_mode", value: Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "dark" : "light");
           }
@@ -255,7 +244,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                         toggleSidebar();      
                       }              
                     },
-                    child: const Icon(Icons.flutter_dash, color: Colors.white, size: 28)
+                    child: const Icon(Icons.flutter_dash, size: 28)
                   )
                 ),
               ),
@@ -266,7 +255,6 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                   child : const Text(
                     "Gampang Erp",
                     style: TextStyle(
-                        color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.bold),
                     maxLines: 1,
@@ -284,7 +272,6 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                 IconButton(
                     icon: Icon(
                       isSidebarCollapsed ? Icons.arrow_forward_ios : Icons.arrow_back_ios,
-                      color: Colors.white,
                       size: 16,
                     ),
                     onPressed: (){
@@ -297,7 +284,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
           ),
         ),
         
-        const Divider(color: Colors.white54, height: 1),
+        const Divider( height: 1),
 
         Expanded(
           child: ListView.builder(

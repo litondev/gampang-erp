@@ -59,11 +59,10 @@ class ResponsiveTable extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  // 🔍 Search Input
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.blue),
+                        prefixIcon: Icon(Icons.search),
                         labelText: "Search",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -73,11 +72,10 @@ class ResponsiveTable extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
 
-                  // 📦 Select Item (Dropdown)
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.list, color: Colors.green),
+                        prefixIcon: Icon(Icons.list),
                         labelText: "Select Item",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -97,11 +95,10 @@ class ResponsiveTable extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
 
-                  // 📝 Input biasa
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.edit, color: Colors.orange),
+                        prefixIcon: Icon(Icons.edit),
                         labelText: "Input",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -173,11 +170,10 @@ class ResponsiveTable extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    // 🔍 Search Input
                     Expanded(
                       child: TextField(
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.search, color: Colors.blue),
+                          prefixIcon: Icon(Icons.search),
                           labelText: "Search",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -187,11 +183,10 @@ class ResponsiveTable extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
 
-                    // 📦 Select Item (Dropdown)
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.list, color: Colors.green),
+                          prefixIcon: Icon(Icons.list),
                           labelText: "Select Item",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -211,11 +206,10 @@ class ResponsiveTable extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
 
-                    // 📝 Input biasa
                     Expanded(
                       child: TextField(
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.edit, color: Colors.orange),
+                          prefixIcon: Icon(Icons.edit),
                           labelText: "Input",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -265,14 +259,12 @@ class ResponsiveTable extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Prev button
                 ElevatedButton(
                   onPressed: () => {},
                   child: Text("Prev"),
                 ),
                 SizedBox(width: 20),
 
-                // Input page
                 SizedBox(
                   width: 100,
                   child: TextField(
@@ -287,7 +279,6 @@ class ResponsiveTable extends StatelessWidget {
                 ),
                 SizedBox(width: 20),
 
-                // Next button
                 ElevatedButton(
                   onPressed: () => {},
                   child: Text("Next"),
