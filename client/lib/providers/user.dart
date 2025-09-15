@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import  "../models/user.dart";
 
 class UserProvider extends ChangeNotifier{  
-  ModelUser? _user;
   bool _isLogin = false;
+  ModelUser? _user;
 
   UserProvider(this._isLogin);
 
-  setUser(ModelUser user){
+  void setUser(ModelUser user){
     _user = ModelUser(
       id : user.id,
       username : user.username,
@@ -18,17 +18,13 @@ class UserProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  setIsLogin(isLogin){
+  void setIsLogin(isLogin){
     _isLogin = isLogin;
     
     notifyListeners();
   }
 
-  ModelUser? getUser(){
-    return _user;
-  }
+  ModelUser? get getUser =>  _user;
 
-  bool getIsLogin(){
-    return _isLogin;
-  }
+  bool get getIsLogin => _isLogin;
 }

@@ -5,8 +5,10 @@ import 'package:localstorage/localstorage.dart';
 import '../../screens/dashboard.dart';
 import '../../screens/profil.dart';
 import '../../screens/table.dart';
+import '../../screens/not_found.dart';
 import '../../providers/sidebar.dart';
 import '../../providers/user.dart';
+import '../../providers/theme.dart';
 import '../../configs/storage.dart';
 import '../../configs/platform.dart';
 import "../../configs/dimension.dart";
@@ -20,6 +22,12 @@ class SidebarResponsive extends StatefulWidget {
 class _SidebarResponsiveState extends State<SidebarResponsive> {  
   bool isSidebarCollapsed = false;
 
+  void toggleSidebar(){
+    setState(() {
+      isSidebarCollapsed = !isSidebarCollapsed;
+    });
+  }
+
   final List<Map<String, dynamic>> menuItems = [
     {'icon': Icons.dashboard, 'title': 'Dashboard', 'key': 'dashboard'},
     {'icon': Icons.people, 'title': 'Profil', 'key': 'profil'},
@@ -27,64 +35,21 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
     {'icon': Icons.logout, 'title': 'Logout', 'key': 'logout'},
   ];
 
-  Widget buildNotificationMenu(BuildContext context){
-    return  PopupMenuButton<String>(
-      icon: const Icon(Icons.notifications),
-      onSelected: (value) {
-        print(value);
-      },
-      itemBuilder: (context) => const [
-        PopupMenuItem(value: 'new_msg', child: Text("New Message")),
-        PopupMenuItem(value: 'updates', child: Text("System Updates")),
-        PopupMenuItem(value: 'reminders', child: Text("Reminders")),
-      ],
-    );
-  }
-
-  Widget buildProfilMenu(BuildContext context) {
-    return PopupMenuButton<String>(
-      icon: const Icon(Icons.account_circle),
-      onSelected: (value) async {
-        if (value == 'logout') {
-          if (AppPlatform.getPlatform() == 'Web') {
-            localStorage.removeItem("token");
-          } else {
-            await AppStorage.Secure.delete(key: "token");
-          }
-
-          Provider.of<UserProvider>(context, listen: false).setIsLogin(false);
-
-          Navigator.of(context).pushReplacementNamed("/");
-        }
-      },
-      itemBuilder: (context) => const [
-        PopupMenuItem(value: 'profile', child: Text("View Profile")),
-        PopupMenuItem(value: 'settings', child: Text("Account Settings")),
-        PopupMenuItem(value: 'logout', child: Text("Logout")),
-      ],
-    );
-  }
-
-  void toggleSidebar(){
-    setState(() {
-      isSidebarCollapsed = !isSidebarCollapsed;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final menuProvider = Provider.of<SidebarProvider>(context);
+    final theme = Theme.of(context);
 
     bool isDesktop = AppDimension.platformType(context) == 'Desktop';
     bool isTablet = AppDimension.platformType(context) == 'Tablet';
     bool isMobile = AppDimension.platformType(context) == 'Mobile';
     
     return Scaffold(
-      backgroundColor: Colors.transparent, 
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: isMobile
           ? AppBar(
               title: Text(menuProvider.menu[0].toUpperCase() + menuProvider.menu.substring(1)),
-              backgroundColor : Colors.white,
+              backgroundColor: theme.appBarTheme.backgroundColor,
               flexibleSpace: Container(
                 decoration: const BoxDecoration(
                   border: Border(
@@ -96,15 +61,15 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                 ),
               ),
               actions: [
-                buildNotificationMenu(context),
+                _buildNotificationMenu(context),
 
-                buildProfilMenu(context)              
+                _buildProfilMenu(context)              
               ],
             )
           : null,
       drawer: isMobile
           ? Drawer(
-              backgroundColor: const Color.fromARGB(255, 4, 63, 94),
+              backgroundColor: theme.drawerTheme.backgroundColor,
               child: _buildSidebarContent(isSidebarCollapsed: isSidebarCollapsed,isMobile : isMobile,toggleSidebar : toggleSidebar),
             )
           : null,
@@ -112,11 +77,11 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
         children: [
           if (isDesktop || isTablet) 
             AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 100),
               width: isSidebarCollapsed 
                   ? 70 
                   : ( isDesktop ? 220 : (isTablet ? 100 : 70) ), 
-              color: const Color.fromARGB(255, 4, 63, 94),
+              color: theme.drawerTheme.backgroundColor,
               child: _buildSidebarContent(isSidebarCollapsed: isSidebarCollapsed,isMobile : isMobile,toggleSidebar : toggleSidebar),
             ),
           Expanded(
@@ -127,7 +92,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                     height: 60,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: theme.cardColor,
                       border: Border(
                         bottom: BorderSide(
                           color: Colors.grey.shade300, 
@@ -140,20 +105,21 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                         Text(
                           menuProvider.menu[0].toUpperCase() + menuProvider.menu.substring(1),
                           style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 12, fontWeight: FontWeight.bold
+                          ),
                         ),
 
                         const Spacer(),
 
-                        buildNotificationMenu(context),
+                        _buildNotificationMenu(context),
 
-                        buildProfilMenu(context)              
+                        _buildProfilMenu(context)              
                       ],
                     ),
                   ),
                 Expanded(
                   child: Container(
-                    color : Colors.white,
+                    color: theme.scaffoldBackgroundColor,
                     padding: const EdgeInsets.all(5),
                     width: double.infinity, 
                     child: _buildContent(),
@@ -209,13 +175,74 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
     );
   }
 
+  Widget _buildNotificationMenu(BuildContext context){
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.notifications),
+      onSelected: (value) {
+        print(value);
+      },
+      itemBuilder: (context) => const [
+        PopupMenuItem(value: 'new_msg', child: Text("New Message")),
+        PopupMenuItem(value: 'updates', child: Text("System Updates")),
+        PopupMenuItem(value: 'reminders', child: Text("Reminders")),
+      ],
+    );
+  }
+
+  Widget _buildProfilMenu(BuildContext context) {
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.account_circle),
+      onSelected: (value) async {
+        if (value == 'logout') {
+          if (AppPlatform.getPlatform() == 'Web') {
+            localStorage.removeItem("token");
+          } else {
+            await AppStorage.Secure.delete(key: "token");
+          }
+
+          Provider
+            .of<UserProvider>(context, listen: false)
+            .setIsLogin(false);
+
+          Navigator
+            .of(context)
+            .pushReplacementNamed("/");
+        }else if (value == 'toggle_theme') {
+          if (AppPlatform.getPlatform() == 'Web') {
+            localStorage.setItem("toggle_theme",Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "dark" : "light");
+          } else {
+            await AppStorage.Secure.write(key: "theme_mode", value: Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "dark" : "light");
+          }
+
+          Provider
+            .of<ThemeProvider>(context,listen: false)
+            .toggleTheme();
+        }
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem(value: 'profile', child: Text("View Profile")),
+        PopupMenuItem(value: 'settings', child: Text("Account Settings")),
+        PopupMenuItem(value: 'logout', child: Text("Logout")),
+        PopupMenuItem(
+          value: 'toggle_theme',
+          child: Row(
+            children: [
+              Icon(Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
+              const SizedBox(width: 8),
+              Text(Provider.of<ThemeProvider>(context,listen: false).themeMode != ThemeMode.dark ? "Light Mode" : "Dark Mode"),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildSidebarContent({required bool isSidebarCollapsed,required bool isMobile,required VoidCallback toggleSidebar}) {
     return Column(
       children: [
         SizedBox(
           height: 60,
           child: Row(
-            // HARUS NYA DIPSISAH SECARA KESLURUHAN BIAR MOBIL DAN DESKTOP TIDAK BERCAMPUR
             children: [
               const SizedBox(width: 12),
 
@@ -237,10 +264,10 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
                 SizedBox(width: 10),
                 Expanded(
                   child : const Text(
-                    "My App",
+                    "Gampang Erp",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -279,21 +306,26 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
             itemBuilder: (context, index) {
               final menu = menuItems[index];
               
-              final isSelected = Provider.of<SidebarProvider>(context).menu == menu['key'];
+              final isSelected = Provider
+                .of<SidebarProvider>(context)
+                .menu == menu['key'];
 
               return InkWell(
                 onTap: () {
                   setState(() {
-                    Provider.of<SidebarProvider>(context, listen: false)
+                    Provider
+                      .of<SidebarProvider>(context, listen: false)
                       .selectMenu(menu['key']!);
                         
                     if (Scaffold.of(context).isDrawerOpen) {
-                      Navigator.of(context).pop();
+                      Navigator
+                        .of(context)
+                        .pop();
                     }
                   });
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
                   color: isSelected
                       ? Colors.blue.withOpacity(0.2)
                       : Colors.transparent,
@@ -338,7 +370,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
       case 'table':
         return TablePage();
       default:
-        return const Center(child: Text("Menu Tidak Ditemukan", style: TextStyle(fontSize: 24)));
+        return NotFound();
     }
   }
 }

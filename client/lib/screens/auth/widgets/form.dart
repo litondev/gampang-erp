@@ -17,7 +17,6 @@ import '../../../core/utils/validators.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({Key? key}) : super(key: key);
-
   @override 
   LoginScreenState createState() => LoginScreenState();
 }
@@ -58,89 +57,94 @@ class LoginScreenState extends State<LoginScreen>{
   }
 
   Widget UsernameField(){
-    return TextFormField(
-      style : TextStyle(
-        fontSize: 12
-      ),
-      decoration: InputDecoration(
-        labelText: "Username",
-        labelStyle : TextStyle(
-          fontSize: 12
-        ),
-        floatingLabelStyle : TextStyle(
-          fontSize: 12
-        ),
-        errorStyle: TextStyle(
-          color: Colors.red,       
-          fontSize: 12,          
-        ),
-      ),
-      validator: (value) {        
-        String? message = UtilValidators.required(value,fieldName : "Username");
+     return SizedBox(
+        height: 8,
+        child: TextFormField(
+          style : TextStyle(
+            fontSize: 12
+          ),
+          decoration: InputDecoration(
+            labelText: "Username",
+            labelStyle : TextStyle(
+              fontSize: 12
+            ),
+            floatingLabelStyle : TextStyle(
+              fontSize: 12
+            ),
+            errorStyle: TextStyle(
+              color: Colors.red,       
+              fontSize: 12,          
+            ),
+          ),
+          validator: (value) {        
+            String? message = UtilValidators.required(value,fieldName : "Username");
 
-        if(message != null){
-          return message;
-        }
+            if(message != null){
+              return message;
+            }
 
-        return null;
-      },
-      onSaved: (String? value) { 
-        username = value.toString();
-      },
-    );
+            return null;
+          },
+          onSaved: (String? value) { 
+            username = value.toString();
+          },
+        )
+     );
   }
 
   Widget PasswordField(){
-    return TextFormField(
-      style : TextStyle(
-        fontSize: 12
-      ),
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: "Password",
-        labelStyle : TextStyle(
+    return SizedBox(
+      height: 8, 
+      child: TextFormField(
+        style : TextStyle(
           fontSize: 12
         ),
-        floatingLabelStyle : TextStyle(
-          fontSize: 12
+        obscureText: true,
+        decoration: InputDecoration(
+          labelText: "Password",
+          labelStyle : TextStyle(
+            fontSize: 12
+          ),
+          floatingLabelStyle : TextStyle(
+            fontSize: 12
+          ),
+          errorStyle: TextStyle(
+            color: Colors.red,       
+            fontSize: 12,          
+          ),
         ),
-        errorStyle: TextStyle(
-          color: Colors.red,       
-          fontSize: 12,          
-        ),
-      ),
-      validator: (value){
-        String fieldName = "Password";
+        validator: (value){
+          String fieldName = "Password";
 
-        String? message = UtilValidators.required(value,fieldName : fieldName);
+          String? message = UtilValidators.required(value,fieldName : fieldName);
 
-        if(message != null){
-          return message;
-        }
+          if(message != null){
+            return message;
+          }
 
-        message = UtilValidators.minLength(value,8,fieldName : fieldName);
+          message = UtilValidators.minLength(value,8,fieldName : fieldName);
 
-        if(message != null){
-          return message;
-        }
+          if(message != null){
+            return message;
+          }
 
-        return null;
-      },
-      onSaved: (String? value) { 
-        password = value.toString();
-      },
+          return null;
+        },
+        onSaved: (String? value) { 
+          password = value.toString();
+        },
+      )
     );
   }
 
   Widget LoginButton(){
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        foregroundColor: AppColors.textSecondary,
         backgroundColor: isLoadingForm == true 
           ? Colors.grey
-          : AppColors.backgroundPrimary,
+          : Colors.lightBlue,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18), 
+          borderRadius: BorderRadius.circular(20), 
         ),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
       ),
@@ -152,7 +156,7 @@ class LoginScreenState extends State<LoginScreen>{
               ? Spinner(icon: Icons.rotate_right)        
               : Icon(Icons.save_alt_outlined),
             Padding(
-              padding: EdgeInsets.only(left : 1),
+              padding: EdgeInsets.only(left : 1,right: 1),
               child : Text("Kirim")
             )
           ],
@@ -199,13 +203,17 @@ class LoginScreenState extends State<LoginScreen>{
 
           final user = await userService.getMe();
 
-          Provider.of<UserProvider>(context,listen: false).setUser(ModelUser(
-            id : user?.id,
-            username : user?.username,
-            fullname : user?.fullname
-          ));
+          Provider
+            .of<UserProvider>(context,listen: false)
+            .setUser(ModelUser(
+              id : user?.id,
+              username : user?.username,
+              fullname : user?.fullname
+            ));
 
-          Provider.of<UserProvider>(context,listen: false).setIsLogin(true);        
+          Provider
+            .of<UserProvider>(context,listen: false)
+            .setIsLogin(true);        
         }else{        
           UtilFormats.formatErrorHttp(response,context);
         }

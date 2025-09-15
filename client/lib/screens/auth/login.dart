@@ -12,7 +12,7 @@ class Login extends StatelessWidget{
   bool? isLogin;
 
   Login(BuildContext context){
-    this.isLogin = Provider.of<UserProvider>(context).getIsLogin();
+    this.isLogin = Provider.of<UserProvider>(context).getIsLogin;
   } 
 
   Widget build(BuildContext context){
@@ -29,22 +29,22 @@ class Login extends StatelessWidget{
             return Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white, 
+                  // color: Colors.white, 
                   borderRadius: !isMobile ? BorderRadius.circular(16) : null, 
                   boxShadow: !isMobile ? [
-                     BoxShadow(
+                    BoxShadow(
                       color: Colors.black.withOpacity(0.1),
                       blurRadius: 5, 
                       offset: Offset(0, 5), 
                     ),
                   ] : [],
                 ),
-                width: isMobile ? double.infinity : 400,
+                width: isMobile ? double.infinity : 500,
                 padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min, 
                   children: [
-                    SizedBox(height: 40),
+                    SizedBox(height: 30),
                     LogoWidget(),
                     SizedBox(height: 30),
                     LoginScreen(),

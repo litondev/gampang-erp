@@ -20,24 +20,24 @@ class InfoCardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 28, color: Colors.blueAccent),
-            const SizedBox(height: 6),
+            Icon(icon, size: 30, color: Colors.blueAccent),
+            const SizedBox(height: 5),
             Text(
               title,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 12,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2.5),
             Text(
               value,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 10,
               ),
             ),
           ],

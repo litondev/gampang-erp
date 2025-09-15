@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 
 import './providers/user.dart';
 import './providers/sidebar.dart';
+import './providers/theme.dart';
 import './configs/themes.dart';
 import './configs/storage.dart';
 import './configs/platform.dart';
@@ -13,34 +14,43 @@ import './core/utils/convertors.dart';
 import "./screens/auth/login.dart";
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   await dotenv.load(fileName: ".env");
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   debugPaintSizeEnabled = false;
 
   String? token = "";
+  String? themeMode = "";
   
   if (AppPlatform.getPlatform() == 'Web') {
     await initLocalStorage();
+    
     token = localStorage.getItem("token");
+
+    themeMode = localStorage.getItem("theme_mode");
   } else {
     token = await AppStorage.Secure.read(key: "token");
-  }
 
-  final isLogin = UtilConvertors.stringToBool(token);
+    themeMode = await AppStorage.Secure.read(key: "theme_mode");
+  }
   
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: SplashScreen(
-      isLogin: isLogin
-    ),
-  ));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(
+        isLogin: UtilConvertors.stringToBool(token),
+        themeMode : themeMode
+      ),
+    )
+  );
 }
 
 class SplashScreen extends StatefulWidget {
   final bool isLogin;
-  const SplashScreen({required this.isLogin});
+  final String? themeMode;
+
+  const SplashScreen({required this.isLogin,required this.themeMode});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -50,12 +60,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // DISINI BISA MENGASKES API SEBELUM SELURUH APAP DIJALANKAN
+    // DISINI BISA MENGASKES API SEBELUM SELURUH APP DIJALANKAN
 
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => MyApp(widget.isLogin), 
+          builder: (_) => MyApp(widget.isLogin,widget.themeMode), 
         ),
       );
     });
@@ -72,9 +82,10 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 class MyApp extends StatelessWidget {
-  final isLogin;
+  final bool isLogin;
+  final String? themeMode;
 
-  MyApp(this.isLogin);
+  MyApp(this.isLogin,this.themeMode);
 
   @override
   Widget build(BuildContext context) {    
@@ -82,16 +93,25 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider(isLogin)),
         ChangeNotifierProvider(create: (_) => SidebarProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider(themeMode)),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Gampang Erp',
-        theme: AppThemes.lightTheme, 
-        initialRoute: '/',
-        routes: {
-          '/': (context) => Login(context),
-        },
-      ),    
+      child: Builder(
+        builder: (context) {
+          final themeProvider = Provider.of<ThemeProvider>(context,listen: true);
+
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Gampang Erp',
+            theme: AppThemes.lightTheme,
+            darkTheme: AppThemes.darkTheme,
+            themeMode: themeProvider.themeMode,
+            initialRoute: '/',
+            routes: {
+              '/': (context) => Login(context),
+            },
+          );    
+        }
+      )
     );
   }
 }

@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 
-import "../../configs/dimension.dart";
 import "info_card_widget.dart";
+import "../../configs/dimension.dart";
 
-class ResponsiveTable extends StatelessWidget {
-  final List<Map<String, dynamic>> rows;
-  final List<ColumnConfig> columns;
-  final List<Widget> Function(Map<String, dynamic>, BuildContext) actions;
+class ColumnConfig {
+  final String key;
+  final String label;
 
+  ColumnConfig({required this.key, required this.label});
+}
+
+class ResponsiveTable extends StatelessWidget {  
   final Function(String) onFilter;
   final String query;
 
+  final List<Map<String, dynamic>> rows;
+  final List<ColumnConfig> columns;
+  final List<Widget> Function(Map<String, dynamic>, BuildContext) actions;
+  
   const ResponsiveTable({
     super.key,
     required this.rows,
@@ -19,7 +26,6 @@ class ResponsiveTable extends StatelessWidget {
     required this.onFilter,
     required this.query
   });
-
 
   @override
   Widget build(BuildContext context) {    
@@ -116,7 +122,7 @@ class ResponsiveTable extends StatelessWidget {
                 final row = rows[index];
 
                 return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   child: ListTile(      
                     title: Text(row["nama"] ?? "-",
                     style: const TextStyle(fontSize: 12)),
@@ -231,7 +237,7 @@ class ResponsiveTable extends StatelessWidget {
                         .map((col) => DataColumn(
                           label: Text(
                             col.label,
-                            style: const TextStyle(fontSize: 13),
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ))
                         .toList(),
@@ -293,11 +299,4 @@ class ResponsiveTable extends StatelessWidget {
       )
     );
   }
-}
-
-class ColumnConfig {
-  final String key;
-  final String label;
-
-  ColumnConfig({required this.key, required this.label});
 }
