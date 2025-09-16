@@ -1,0 +1,2 @@
+- hapus kolom opsional,group dan group status chart_of_account_transaction
+- hapus data settings
