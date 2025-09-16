@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
+import './core/utils/widgets/layout_reponsive.dart';
 
-class NotFound extends StatelessWidget {
+class NotFoundPage extends StatelessWidget {
+  const NotFoundPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(child : Text("Halaman Tidak Ditemukan"));
+    return const LayoutResponsive(
+      // title: "Dashboard",
+      child: Center(child: Text("Halaman Tidak Ditemukan")),
+    );
   }
 }

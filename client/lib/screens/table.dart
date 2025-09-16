@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
 
 import '../core/widgets/table_responsive.dart';
+import './core/utils/widgets/layout_reponsive.dart';
 
-class TablePage extends StatefulWidget {
+class TablePage extends StatelessWidget {
   const TablePage({super.key});
+
   @override
-  _TablePageState createState() => _TablePageState();
+  Widget build(BuildContext context) {
+    return const LayoutResponsive(
+      // title: "Table",
+      child: TableDataPage,
+    );
+  }
 }
 
-class _TablePageState extends State<TablePage> {  
+class TableDataPage extends StatefulWidget {
+  const TableDataPage({super.key});
+  @override
+  _TablePageDataState createState() => _TablePageDataState();
+}
+
+class _TablePageDataState extends State<TableDataPage> {  
   final columns = [
     ColumnConfig(key: "id", label: "ID"),
     ColumnConfig(key: "nama", label: "Nama"),

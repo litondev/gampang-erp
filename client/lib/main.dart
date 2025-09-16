@@ -13,6 +13,11 @@ import './configs/platform.dart';
 import './core/utils/convertors.dart';
 import "./screens/auth/login.dart";
 
+import './screens/dashboard.dart';
+import './screens/profil.dart';
+import './screens/table.dart';
+import './screens/not_found.dart';
+
 void main() async {
   await dotenv.load(fileName: ".env");
 
@@ -94,7 +99,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider(themeMode)),
         ChangeNotifierProvider(create: (_) => UserProvider(isLogin)),
-        ChangeNotifierProvider(create: (_) => SidebarProvider()),
+        // ChangeNotifierProvider(create: (_) => SidebarProvider()),
+          // DIGUNAKAN HANYA KETIKA MEMAKAI SIDEBAR RESPONSIVE
       ],
       child: Builder(
         builder: (context) {
@@ -108,7 +114,15 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             initialRoute: '/',
             routes: {
-              '/': (_) => Login(),
+              '/': (_) => isLogin ? const DashboardPage() : const LoginPage(),
+              '/dashboard': (_) => const DashboardPage(),
+              '/table' : (_) => const TablePage(),
+              '/profil' : (_) => const ProfilPage()
+            },
+            onUnknownRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (_) => const NotFoundPage(),
+              );
             },
           );    
         }

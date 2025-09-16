@@ -1,18 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import './core/utils/widgets/layout_reponsive.dart';
 
-import '../providers/sidebar.dart';
+class ProfilPage extends StatelessWidget {
+  const ProfilPage({super.key});
 
-class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Provider
-          .of<SidebarProvider>(context, listen: false)
-          .selectMenu('dashboard');
-      },
-      child: Text("Kembali ke Dashboard"),
+    return const LayoutResponsive(
+      // title: "Profil",
+      child: Center(child: Text("Profil")),
     );
   }
 }

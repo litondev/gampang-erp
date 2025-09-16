@@ -6,14 +6,27 @@ import "../../configs/dimension.dart";
 import '../../providers/user.dart';
 import "widgets/form.dart";
 import "widgets/logo.dart";
+import "../dashboard.dart";
 
 class Login extends StatelessWidget{  
   Widget build(BuildContext context){
-    bool isLogin = Provider.of<UserProvider>(context).getIsLogin;
+    // bool isLogin = Provider.of<UserProvider>(context).getIsLogin;
 
-    if(isLogin == true){
-      return SidebarResponsive();
-    }
+    // if(isLogin == true){
+      // Halaman baru di push ke stack
+      // Navigator.pushNamed(context, '/dashboard');
+
+      // Balik ke halaman sebelumnya 
+      // Navigator.pop(context);
+
+      // Halaman baru dan menghapus seluruh stack
+      // Navigator.pushReplacementNamed(context, '/dashboard');
+
+      // return DashboardPage();
+      
+      // return SidebarResponsive();
+      // DIGUNAKAN HANYA KETIKA MEMAKAI SIDEBAR RESPONSIVE
+    // }
 
     final theme = Theme.of(context);
 
