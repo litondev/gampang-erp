@@ -23,15 +23,27 @@ class LayoutResponsive extends StatefulWidget {
 }
 
 class _LayoutResponsiveState extends State<LayoutResponsive> {  
-  UserProvider? userProvider;
-  ThemeProvider? themeProvider;
+  late UserProvider userProvider;
+  late ThemeProvider themeProvider;
+  late ThemeData theme;
 
+  // JANGAN GUNAKAN INI STATE
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   userProvider = Provider.of<UserProvider>(context,listen: false);
+  //   themeProvider = Provider.of<ThemeProvider>(context,listen: false);
+  // }
+
+  // GUNAKAN 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     userProvider = Provider.of<UserProvider>(context,listen: false);
     themeProvider = Provider.of<ThemeProvider>(context,listen: false);
+    theme = Theme.of(context);
   }
 
   bool isSidebarCollapsed = false;
@@ -51,8 +63,6 @@ class _LayoutResponsiveState extends State<LayoutResponsive> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     bool isDesktop = AppDimension.platformType(context) == 'Desktop';
     bool isTablet = AppDimension.platformType(context) == 'Tablet';
     bool isMobile = AppDimension.platformType(context) == 'Mobile';
@@ -61,7 +71,7 @@ class _LayoutResponsiveState extends State<LayoutResponsive> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: isMobile
           ? AppBar(
-              widget.title,
+              // widget.title,
               backgroundColor: theme.appBarTheme.backgroundColor,
               flexibleSpace: Container(
                 decoration: const BoxDecoration(
@@ -202,19 +212,17 @@ class _LayoutResponsiveState extends State<LayoutResponsive> {
             await AppStorage.Secure.delete(key: "token");
           }
 
-          userProvider?.setIsLogin(false);
-
-          Navigator
-            .of(context)
-            .pushReplacementNamed("/");
+          userProvider.setIsLogin(false);
+  
+          Navigator.of(context).pushReplacementNamed("/");
         }else if (value == 'toggle_theme') {
           if (AppPlatform.getPlatform() == 'Web') {
-            localStorage.setItem("theme_mode",themeProvider?.themeMode != ThemeMode.dark ? "dark" : "light");
+            localStorage.setItem("theme_mode",themeProvider.themeMode != ThemeMode.dark ? "dark" : "light");
           } else {
-            await AppStorage.Secure.write(key: "theme_mode", value: themeProvider?.themeMode != ThemeMode.dark ? "dark" : "light");
+            await AppStorage.Secure.write(key: "theme_mode", value: themeProvider.themeMode != ThemeMode.dark ? "dark" : "light");
           }
 
-          themeProvider?.toggleTheme();
+          themeProvider.toggleTheme();
         }
       },
       itemBuilder: (context) => [
@@ -225,9 +233,9 @@ class _LayoutResponsiveState extends State<LayoutResponsive> {
           value: 'toggle_theme',
           child: Row(
             children: [
-              Icon(themeProvider?.themeMode != ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
+              Icon(themeProvider.themeMode != ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
               const SizedBox(width: 8),
-              Text(themeProvider?.themeMode != ThemeMode.dark ? "Light Mode" : "Dark Mode"),
+              Text(themeProvider.themeMode != ThemeMode.dark ? "Light Mode" : "Dark Mode"),
             ],
           ),
         ),
@@ -301,7 +309,9 @@ class _LayoutResponsiveState extends State<LayoutResponsive> {
 
             itemBuilder: (context, index) {
               final menu = menuItems[index];
-              
+
+              final isSelected = widget.title == menu['key'];
+
               return InkWell(
                 onTap: () {
                   setState(() {                        

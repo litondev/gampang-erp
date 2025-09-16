@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../core/widgets/layout_responsive.dart';
 import '../core/widgets/table_responsive.dart';
-import './core/utils/widgets/layout_reponsive.dart';
 
 class TablePage extends StatelessWidget {
-  const TablePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return const LayoutResponsive(
-      // title: "Table",
-      child: TableDataPage,
+      title: "Table",
+      child: TableDataPage(),
     );
   }
 }

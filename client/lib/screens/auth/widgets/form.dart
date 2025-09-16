@@ -26,12 +26,19 @@ class LoginScreenState extends State<LoginScreen>{
   String username = '';
   String password = '';
   bool isLoadingForm = false;
-  UserProvider? userProvider;
+  late UserProvider userProvider;
 
+  // JANGAN GUNAKAN INI STATE
+  // @override
+  // void initState() {
+    // super.initState();
+    // userProvider = Provider.of<UserProvider>(context,listen: false);
+  // }
+
+  // GUNAKAN INI
   @override
-  void initState() {
-    super.initState();
-
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     userProvider = Provider.of<UserProvider>(context,listen: false);
   }
 
@@ -205,7 +212,7 @@ class LoginScreenState extends State<LoginScreen>{
 
           final user = await userService.getMe();
 
-          userProvider?.setUser(
+          userProvider.setUser(
               ModelUser(
                 id : user?.id,
                 username : user?.username,
@@ -213,7 +220,7 @@ class LoginScreenState extends State<LoginScreen>{
               )
             );
 
-          userProvider?.setIsLogin(true);        
+          userProvider.setIsLogin(true);        
         }else{        
           UtilFormats.formatErrorHttp(response,context);
         }

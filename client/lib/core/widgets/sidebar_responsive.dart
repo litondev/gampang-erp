@@ -351,6 +351,7 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
   }
 
   Widget _buildContent() {
+    return Text("Test");
     switch (sidebarProvider?.menu) {
       // MASTER
       // MARKETING
@@ -364,13 +365,13 @@ class _SidebarResponsiveState extends State<SidebarResponsive> {
       // MANUFACTUR
       // DEPRECIATION
       case 'dashboard':
-        return Dashboard();
+        // return Dashboard();
       case 'profil':
-        return Profil();
+        // return Profil();
       case 'table':
-        return TablePage();
+        // return TablePage();
       default:
-        return NotFound();
+        // return NotFound();
     }
   }
 }

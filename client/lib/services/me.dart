@@ -31,7 +31,7 @@ class MeService {
       }
 
       final url = Uri.parse(dotenv.env['API_URL']! + "/me");
-
+      
       final response = await http.get(
         url,
         headers: UtilApis.headers(token),

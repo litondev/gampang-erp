@@ -114,14 +114,14 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             initialRoute: '/',
             routes: {
-              '/': (_) => isLogin ? const DashboardPage() : const LoginPage(),
-              '/dashboard': (_) => const DashboardPage(),
-              '/table' : (_) => const TablePage(),
-              '/profil' : (_) => const ProfilPage()
+              '/': (_) => LoginPage(),
+              '/dashboard': (_) => DashboardPage(),
+              '/table' : (_) => TablePage(),
+              '/profil' : (_) => ProfilPage()
             },
             onUnknownRoute: (settings) {
               return MaterialPageRoute(
-                builder: (_) => const NotFoundPage(),
+                builder: (_) => NotFoundPage(),
               );
             },
           );    

@@ -1,12 +1,12 @@
-import './core/utils/widgets/layout_reponsive.dart';
+import 'package:flutter/material.dart';
+
+import '../core/widgets/layout_responsive.dart';
 
 class ProfilPage extends StatelessWidget {
-  const ProfilPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return const LayoutResponsive(
-      // title: "Profil",
+      title: "Profil",
       child: Center(child: Text("Profil")),
     );
   }

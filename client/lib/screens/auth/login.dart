@@ -8,11 +8,11 @@ import "widgets/form.dart";
 import "widgets/logo.dart";
 import "../dashboard.dart";
 
-class Login extends StatelessWidget{  
+class LoginPage extends StatelessWidget{
   Widget build(BuildContext context){
-    // bool isLogin = Provider.of<UserProvider>(context).getIsLogin;
+    bool isLogin = Provider.of<UserProvider>(context).getIsLogin;
 
-    // if(isLogin == true){
+    if(isLogin == true){
       // Halaman baru di push ke stack
       // Navigator.pushNamed(context, '/dashboard');
 
@@ -22,11 +22,11 @@ class Login extends StatelessWidget{
       // Halaman baru dan menghapus seluruh stack
       // Navigator.pushReplacementNamed(context, '/dashboard');
 
-      // return DashboardPage();
+      return DashboardPage();
       
       // return SidebarResponsive();
       // DIGUNAKAN HANYA KETIKA MEMAKAI SIDEBAR RESPONSIVE
-    // }
+    }
 
     final theme = Theme.of(context);
 
