@@ -10,6 +10,7 @@ import "../dashboard.dart";
 
 class LoginPage extends StatelessWidget{
   Widget build(BuildContext context){
+    // BEST PARTICE HALAMAN PERTAMA KALAU DIPASANG DI MAIN MANDAH ERROR
     bool isLogin = Provider.of<UserProvider>(context).getIsLogin;
 
     if(isLogin == true){
