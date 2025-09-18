@@ -9,6 +9,7 @@ Dashboard
  - Transaction Summary
 
 Master 
+ - Dashboard
  - Warehouse
  - Supplier
  - Customer
@@ -23,18 +24,21 @@ Master
  - Position
  
 Purchaseing
+ - Dashboard
  - Po Supplier
  - Purchaseing
  - Return 
  - Debt 
 
 Marketing
+ - Dashboard
  - Po Customer
  - Work Order
  - Promotion Item
  - Promotion 
 
 Selling
+ - Dashboard
  - Selling
  - Return
  - Receivable
@@ -42,6 +46,7 @@ Selling
  - Export Tax
 
 Inventory 
+ - Dashboard
  - Cogs Stock
  - Identity Stock
  - Production Code Stock
@@ -53,6 +58,7 @@ Inventory
  - Stock Mutation
 
 Finance
+ - Dashboard
  - Account
  - Account Transaction
  - Account Balance
@@ -66,6 +72,7 @@ Finance
  - Modal Change Sheet 
 
 Manufactur
+ - Dashboard
  - Bill Of Material
  - Material Requirement
  - Production
